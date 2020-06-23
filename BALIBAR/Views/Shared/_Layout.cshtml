@@ -3,29 +3,30 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - BALIBAR</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <title>BALIBAR</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/main.css" />
+    <link rel="stylesheet" href="~/css/fonts.css" />
+    <link rel="stylesheet" href="~/css/home.css" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">BALIBAR</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+
+        <nav class="navbar navbar-light customNavbar">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand navLink" asp-controller="Home" asp-action="Index">
+                        <img src="favicon.ico" style="height:40px;width:55px;margin-top:-10px;"/>
+                    </a>
                 </div>
+                <ul class="nav navbar-nav">
+                    <li><a asp-controller="Home" asp-action="Index">About us</a></li>
+                    <li><a asp-controller="Home" asp-action="Index">Our clubs</a></li>
+                </ul>
             </div>
         </nav>
     </header>
@@ -35,11 +36,15 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2020 - BALIBAR - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+
+    <footer class="footer">
+
+        <div class="footer-copyright text-center py-3">
+            &copy; @DateTime.Now.Year BALIBAR All Rights Reserved &copy;
         </div>
     </footer>
+
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
