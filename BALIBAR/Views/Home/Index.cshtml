@@ -1,7 +1,69 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+<br />
+<div class="row">
+    <div class="col-md-12">
+        <canvas id="canvas"></canvas>
+        <script>
+            var canvas = document.getElementById('canvas');
+            canvas.style.width = '100%';
+            canvas.width = canvas.offsetWidth;
 
-<div class="text-center">
-    <h1 class="display-4">Home page</h1>
+            var context = canvas.getContext('2d');
+            var imageObj = new Image();
+            imageObj.src = '/Content/BALIBAR_full.png';
+
+            imageObj.onload = function () {
+
+                var wrh = imageObj.width / imageObj.height;
+                var newWidth = canvas.width;
+                var newHeight = newWidth / wrh;
+                if (newHeight > canvas.height) {
+                    newHeight = canvas.height;
+                    newWidth = newHeight * wrh;
+                }
+                var xOffset = newWidth < canvas.width ? ((canvas.width - newWidth) / 2) : 0;
+                var yOffset = newHeight < canvas.height ? ((canvas.height - newHeight) / 2) : 0;
+
+                context.drawImage(imageObj, xOffset, yOffset, newWidth, newHeight);
+            };
+        </script>
+    </div>
 </div>
+
+<div class="row">
+    <div class="col-md-6">
+        <h2>Our profession</h2>
+        <video width="560" height="317" controls>
+            <source src="/Content/nightlife.mp4" type="video/mp4">
+        </video>
+    </div>
+    <div class="col-md-6" style="padding-left: 80px;">
+        <br />
+        <div id="fb-root"></div>
+        <script>
+            (function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.1&appId=295415171250806';
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        </script>
+        <div class="fb-page" data-href="https://www.facebook.com/BALI-BAR-103846034722719" data-tabs="timeline" data-width="500" data-height="360" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/BALI-BAR-103846034722719" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/BALI-BAR-103846034722719"></a></blockquote></div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <h2>About us</h2>
+        <p class="six-col">
+            There are a lot of bars and clubs spreaded widely around the world.<br /><br />
+            <b>Bars</b> considered a social and fun place where you can consume drinks and food.<br />
+            There are different types of bars, so it suitable for everyone.<br /><br />
+            In order to make it easy for individuals and groups to get these different bars and enjoy high quality time together, we would like to offer you a possibility to view various bars and clubs descriptions, reviews and rates to ease your choise.
+        </p>
+    </div>
+</div>
+<br />
+<br />

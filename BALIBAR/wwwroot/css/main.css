@@ -94,7 +94,7 @@ a.details {
 }
 
 nav:hover {
-    background-color: lightseagreen !important;
+    background-color: #6531d6 !important;
 }
 
 canvas {
@@ -177,7 +177,7 @@ li > a {
     display: none;
 }
 
-.filter{
+.filter {
     margin: 1em 0;
 }
 
@@ -189,4 +189,3 @@ footer {
 body {
     color: white;
 }
-
