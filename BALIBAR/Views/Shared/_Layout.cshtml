@@ -20,15 +20,19 @@
             <div class="container-fluid">
                 <div class="navbar-header">
                     <a class="navbar-brand navLink" asp-controller="Home" asp-action="Index">
-                        <img src="favicon.ico" style="height:40px;width:55px;margin-top:-10px;"/>
+                        <img src="~/favicon.ico" style="height:40px;width:55px;margin-top:-10px;" />
                     </a>
                 </div>
                 <ul class="nav navbar-nav">
                     <li><a asp-controller="Home" asp-action="Index">About us</a></li>
                     <li><a asp-controller="Home" asp-action="Index">Our clubs</a></li>
                 </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    @await Html.PartialAsync("_LoginPartial")
+                </ul>
             </div>
         </nav>
+        <partial name="_CookieConsentPartial" />
     </header>
     <div class="container">
         <main role="main" class="pb-3">

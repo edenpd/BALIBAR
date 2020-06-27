@@ -76,14 +76,19 @@ a.details {
     box-shadow: 0 0.5rem 1rem rgba(0,0,0,.05), inset 0 -1px 0 rgba(0,0,0,.1);
 }
 
-    .bd-navbar .navbar-nav .nav-link {
-        padding-right: .5rem;
-        padding-left: .5rem;
-        color: #cdbfe3;
-    }
+.bd-navbar .navbar-nav .nav-link {
+    padding-right: .5rem;
+    padding-left: .5rem;
+    color: #cdbfe3;
+}
 
 .navLink {
     color: white;
+}
+
+#userHello:hover {
+    color: white;
+    background-color: transparent;
 }
 
 .customNavbar {
