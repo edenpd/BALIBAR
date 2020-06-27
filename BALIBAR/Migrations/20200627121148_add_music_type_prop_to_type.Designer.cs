@@ -4,14 +4,16 @@ using BALIBAR.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BALIBAR.Migrations
 {
     [DbContext(typeof(BALIBARContext))]
-    partial class BALIBARContextModelSnapshot : ModelSnapshot
+    [Migration("20200627121148_add_music_type_prop_to_type")]
+    partial class add_music_type_prop_to_type
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -17,5 +17,8 @@ namespace BALIBAR.Models
         [Display(Name = "Description")]
         public string Description { get; set; }
 
+        [Display(Name = "Music type")]
+        public string MusicType { get; set; }
+
     }
 }
