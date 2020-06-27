@@ -25,6 +25,9 @@ td {
     word-wrap: break-word;
 }
 
+.form-inline .form-group {
+    margin-right: 30px;
+}
 a.edit {
     background: url(./Edit2.png) no-repeat top left;
     width: 20px;

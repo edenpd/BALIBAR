@@ -1,95 +1,113 @@
 ﻿@model IEnumerable<BALIBAR.Models.Bar>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Our bars";
 }
 
-<h1>Index</h1>
+<h1>Our bars</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-default">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MaxParticipants)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.InOut)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Kosher)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Accessible)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OpeningTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ClosingTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MinAge)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImgUrl)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaxParticipants)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.InOut)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Kosher)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Accessible)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OpeningTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClosingTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MinAge)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImgUrl)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+<div class="row">
+    <div class="col-md-12">
+        <form class="form-inline filter" asp-controller="Bars" asp-action="Index">
+            <div class="form-group">
+                <label class="control-label" for="roomName">Bar name : </label>
+                <input class="form-control" type="text" name="barName">
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="Type_Name">Club type : </label>
+                <select class="form-control" id="Type_Name" name="type"><option value="">All</option></select>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="minAge">Min age : </label>
+                <input class="form-control" type="number" name="minAge" min="16" max="120">
+            </div>
+            <div class="form-group submit">
+                <input class="btn btn-primary" type="submit" value="Search" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    @if (User.Identity.IsAuthenticated)
+    {
+        @if (User.IsInRole("Admin"))
+        {
+            <div onclick="location.href='@Url.Action("Create")'" class="room-card new">
+                <h1>Add new bar</h1>
+            </div>
+        }
+    }
+</div>
+@foreach (Bar curr in @Model)
+{
+    <div class="row">
+        <div onclick="location.href='@Url.Action("Details", new { id=@curr.Id })'" class="room-card">
+            <div class="tag">@curr.Type.Name</div>
+            <section class="info">
+                <h1>@curr.Name</h1>
+                <h2>@curr.Address</h2>
+                <div class="row rooms-container">
+                    <div class="col-md-3 proptag">
+                        @if (@curr.Kosher)
+                        {<div>Kosher</div> }
+                        else
+                        { <div>Not kosher</div>}
+                    </div>
+                    <div class="col-md-3 proptag">
+                        @if (@curr.Accessible)
+                        {<div>Accessible</div> }
+                        else
+                        { <div>Not accessible</div>}
+                    </div>
+
+                    <div class="col-md-3 proptag">
+                        @curr.InOut
+                    </div>
+
+                    <div class="col-md-3 proptag">
+                        @curr.MinAge+
+                    </div>
+                </div>
+                <div class="rooms-container">
+                    <div class="row proptag">
+                        @curr.OpeningTime.ToShortTimeString() - @curr.ClosingTime.ToShortTimeString()
+                    </div>
+                </div>
+            </section>
+            @if (User.Identity.IsAuthenticated)
+            {
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-action="Edit" asp-route-id="@curr.Id" class="btn btn-primary"> Edit</a>
+                    <a asp-action="Delete" asp-route-id="@curr.Id" class="btn btn-danger"> Delete</a>
+                }
+            }
+        </div>
+    </div>
 }
-    </tbody>
-</table>
+
+@section Scripts {
+    <script type="text/javascript">
+        var url = "/Bars/GetTypesList"
+        var select = document.getElementById("Type_Name")
+        $.ajax({
+            type: 'GET',
+            url: url,
+            contentType: 'json',
+            success: function (genres) {
+
+                for (var i = 0; i < genres.length; i++) {
+                    var option = document.createElement("option");
+                    option.text = genres[i];
+                    select.add(option);
+                }
+            }
+        })
+    </script>
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

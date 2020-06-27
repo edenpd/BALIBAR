@@ -18,6 +18,7 @@ namespace BALIBAR.Models
         public string Name { get; set; }
 
         [DataType(DataType.Text)]
+        [Required]
         [Display(Name = "Address")]
         public string Address { get; set; }
 

@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/main.css" />
     <link rel="stylesheet" href="~/css/fonts.css" />
-    <link rel="stylesheet" href="~/css/home.css" />
+    <link rel="stylesheet" href="~/css/bars.css" />
 </head>
 <body>
     <header>
@@ -25,7 +25,7 @@
                 </div>
                 <ul class="nav navbar-nav">
                     <li><a asp-controller="Home" asp-action="Index">About us</a></li>
-                    <li><a asp-controller="Home" asp-action="Index">Our clubs</a></li>
+                    <li><a asp-controller="Bars" asp-action="Index">Our Bars</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     @await Html.PartialAsync("_LoginPartial")
