@@ -10,7 +10,6 @@ namespace BALIBAR.Data
 {
     public class BALIBARContext : IdentityDbContext<ApplicationUser>
     {
-
         public BALIBARContext (DbContextOptions<BALIBARContext> options)
             : base(options)
         {

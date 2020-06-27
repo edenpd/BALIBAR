@@ -11,11 +11,16 @@ using BALIBAR.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace BALIBAR
 {
     public class Startup
     {
+
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<ApplicationUser> _roleManager;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -73,7 +78,7 @@ namespace BALIBAR
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider services)
         {
             if (env.IsDevelopment())
             {
@@ -99,6 +104,8 @@ namespace BALIBAR
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            CreateUserRoles(services).Wait();
         }
 
         private async Task CreateUserRoles(IServiceProvider serviceProvider)
@@ -122,6 +129,22 @@ namespace BALIBAR
             {
                 await UserManager.AddToRoleAsync(user, "Admin");
             }
+
+            // Create admins
+            var Eden = new ApplicationUser { UserName = "eden", Email = "eden@gmail.com" };
+            var resultEden = await UserManager.CreateAsync(Eden, "123456");
+            if (resultEden.Succeeded) UserManager.AddToRoleAsync(Eden, "Admin").Wait();
+
+            var Ron = new ApplicationUser { UserName = "ron", Email = "ron@gmail.com" };
+            var resultRon = await UserManager.CreateAsync(Ron, "123456");
+            if (resultRon.Succeeded) UserManager.AddToRoleAsync(Ron, "Admin").Wait();
+
+            var Tomer = new ApplicationUser { UserName = "tomer", Email = "tomer@gmail.com" };
+            var resultTomer = await UserManager.CreateAsync(Tomer, "123456");
+            if (resultEden.Succeeded) UserManager.AddToRoleAsync(Tomer, "Admin").Wait();
+
         }
+
+
     }
 }
