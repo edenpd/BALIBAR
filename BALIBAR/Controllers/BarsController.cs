@@ -86,11 +86,9 @@ namespace BALIBAR.Controllers
                 {
 
                     if (!String.IsNullOrEmpty(bar.ImgUrl)) {
-                        //string uniqueFileName = null;
-                        //string uploadFolder = Path.Combine(_env.WebRootPath, "content");
-                        //uniqueFileName = Guid.NewGuid().ToString() + "_" + bar.ImgUrl;
-                        //string filePath = Path.Combine(uploadFolder, uniqueFileName);
-
+                        string copyImagePath = _env.WebRootPath + "\\content\\" + bar.Name + ".jpg";
+                        System.IO.File.Copy(bar.ImgUrl, copyImagePath, true);
+                        bar.ImgUrl = "/content/" + bar.Name + ".jpg";
                     }
 
 
@@ -139,6 +137,12 @@ namespace BALIBAR.Controllers
                     var type = _context.Type.Where(t => t.Name == typeName);
                     if (type.Count() != 0)
                     {
+                        if (!String.IsNullOrEmpty(bar.ImgUrl))
+                        {
+                            string copyImagePath = _env.WebRootPath + "\\content\\" + bar.Name + ".jpg";
+                            System.IO.File.Copy(bar.ImgUrl, copyImagePath, true);
+                            bar.ImgUrl = "/content/" + bar.Name + ".jpg";
+                        }
                         bar.Type = type.ToList()[0];
                         _context.Update(bar);
                         await _context.SaveChangesAsync();

@@ -16,7 +16,7 @@
 
 .room-card {
     transition: .2s;
-    background: #3490e0;
+    background: #0595BE;
     margin: 1rem;
     padding-bottom: 1rem;
     width: 100%;
@@ -25,17 +25,20 @@
     text-align: center;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.16), 0 5px 10px rgba(0,0,0,0.23);
     cursor: pointer;
+    font-family: 'Microsoft JhengHei UI light';
 }
     .room-card.new {
-        background: #74ff6e;
+        background: #1EDC3F;
         display: flex;
         align-items: center;
         justify-content: center;
         color: black;
         width: 100%;
         height: 100px;
+        color: white;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.16), 0 5px 10px rgba(0,0,0,0.23);
     }
 
     .room-card.banner {
@@ -78,7 +81,7 @@
 .tag {
     z-index: 2;
     position: absolute;
-    background: #d90dd9;
+    background: #5918DE;
     color: white;
     margin: 1rem;
     font-size: 20px;
@@ -89,7 +92,7 @@
 
 .proptag {
     z-index: 2;
-    background: #6531d6;
+    background: #B353CB;
     color: white;
     margin: 1rem;
     font-size: 20px;

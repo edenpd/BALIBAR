@@ -57,7 +57,8 @@ namespace BALIBAR.Models
         [Display(Name = "Min Age")]
         public int MinAge { get; set; }
 
-        [DataType(DataType.Url)]
+        //[DataType(DataType.Url)]
+        [Display(Name = "Image url")]
         public string ImgUrl { get; set; }
 
         [Required]
