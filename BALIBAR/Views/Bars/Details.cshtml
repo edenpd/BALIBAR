@@ -4,81 +4,135 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>@Model.Name</h1>
+<div class="bar-display">
+    <h1>@Model.Name</h1>
+    <div>
+        <hr />
+        <div class="row text-center">
+            <div class="col-sm-12">
+                <h2>@Model.Type.Name</h2>
+                @if (@Model.ImgUrl != "")
+                {
+                    <img src=@Model.ImgUrl style="  max-width: 200px;
+                                                    max-height: 200px;
+                                                    margin-top: 1rem;
+                                                    margin-bottom: 1rem;">
+                }
+                <h3>@Model.Description</h3>
+                <div class="row rooms-container">
+                    <div class="col-md-4 detailstag">
+                        @if (Model.Kosher)
+                        {<div>Kosher</div> }
+                        else
+                        { <div>Not kosher</div>}
+                    </div>
+                    <div class="col-md-4 detailstag">
+                        @if (Model.Accessible)
+                        {<div>Accessible</div> }
+                        else
+                        { <div>Not accessible</div>}
+                    </div>
 
-<div>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Address)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.MaxParticipants)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.MaxParticipants)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InOut)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InOut)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Kosher)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Kosher)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Accessible)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Accessible)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.OpeningTime)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OpeningTime)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ClosingTime)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ClosingTime)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.MinAge)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.MinAge)
-        </dd>
-        @if (@Model.ImgUrl != "")
+                    <div class="col-md-4 detailstag">
+                        @Model.InOut
+                    </div>
+                </div>
+                <div class="row rooms-container">
+                    <div class="col-md-6 detailstag" style="width: 250px;">
+                        Up to @Model.MaxParticipants people
+                    </div>
+
+                    <div class="col-md-6 detailstag" style="width: 250px;">
+                        Age @Model.MinAge and over
+                    </div>
+                </div>
+                <div class="row rooms-container">
+                    <div class="col-md-6 detailstag" style="width: 250px;">
+                        Opening hour: @Model.OpeningTime.ToShortTimeString()
+                    </div>
+
+                    <div class="col-md-6 detailstag" style="width: 250px;">
+                        Closing hour: @Model.ClosingTime.ToShortTimeString()
+                    </div>
+                </div>
+                <center>
+                    <div id="myMap" style="width:400px;height:300px;" />
+                </center>
+            </div>
+        </div>
+    </div>
+    <div style="padding-top:2rem;">
+        <a asp-action="Index" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Back</a>
+
+        @if (User.Identity.IsAuthenticated)
         {
-            <img src="@Model.ImgUrl">
-
+            @if (User.IsInRole("Admin"))
+            {
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Delete</a>
+            }
         }
-    </dl>
+    </div>
 </div>
-<div>
-    <a asp-action="Index" class="btn btn-default">Back to bars</a>
 
-    @if (User.Identity.IsAuthenticated)
-    {
-        @if (User.IsInRole("Admin"))
-        {
-            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
-            <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger"> Delete</a>
+
+<script type="text/javascript">
+    var map;
+    var searchManager;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map("#myMap");
+        addRoomToMap('@Model.Name', '@Model.Address');
+
+    }
+
+    function addRoomToMap(name, address) {
+        findLocationByAddress(address, function (location) {
+            var barLocation = location;
+            var barPoint = new Microsoft.Maps.Pushpin(barLocation);
+            var infobox = new Microsoft.Maps.Infobox(barLocation, {
+                title: name,
+                description: address,
+                visible: false
+            });
+            infobox.setMap(map);
+            infobox.setOptions({ visible: true });
+            Microsoft.Maps.Events.addHandler(barPoint, 'click', function () {
+                infobox.setOptions({ visible: true });
+            });
+            map.entities.push(barPoint);
+            map.setView({
+                center: location,
+                zoom: 15
+            });
+
+        });
+    }
+
+    function findLocationByAddress(address, foo) {
+        // If search manager is not defined, load the search module
+        if (!searchManager) {
+            // Create an instance of the search manager and re-enter function
+            Microsoft.Maps.loadModule('Microsoft.Maps.Search', function () {
+                searchManager = new Microsoft.Maps.Search.SearchManager(map);
+                findLocationByAddress(address, foo);
+            });
+        } else {
+            var searchRequest = {
+                where: address,
+                callback: function (r) {
+                    foo(r.results[0].location);
+                },
+                errorCallback: function (e) {
+                    // If there is an error
+                    console.log("No results found for this address: " + address);
+                }
+            };
+
+            // Make the geocode request
+            searchManager.geocode(searchRequest);
         }
     }
-</div>
+</script>
+<script type="text/javascript" src="https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AmTbZrbvXwVy0XO22GneszL2g9TZqn9gsLSs8ejbQe-EIb5_QvppPlAyyD_59HII" async defer></script>
+

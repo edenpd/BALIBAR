@@ -21,9 +21,6 @@ namespace BALIBAR.Controllers
         private readonly BALIBARContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IHostingEnvironment _env;
-
-
-
         public BarsController(BALIBARContext context, UserManager<ApplicationUser> userManager, IHostingEnvironment env)
         {
             _context = context;
@@ -56,7 +53,7 @@ namespace BALIBAR.Controllers
         {
             if (id == null) return new NotFoundViewResult("NotFoundError", "Bar wasn't found");
 
-            var Bar = await _context.Bar.FirstOrDefaultAsync(m => m.Id == id);
+            var Bar = await _context.Bar.Include("Type").SingleOrDefaultAsync(b => b.Id == id);
 
             if (Bar == null) return new NotFoundViewResult("NotFoundError", "Bar wasn't found");
 
@@ -84,13 +81,11 @@ namespace BALIBAR.Controllers
             {
                 if (ModelState.IsValid)
                 {
-
-                    if (!String.IsNullOrEmpty(bar.ImgUrl)) {
+                    if (!String.IsNullOrEmpty(bar.ImgUrl) && System.IO.File.Exists(bar.ImgUrl)) {
                         string copyImagePath = _env.WebRootPath + "\\content\\" + bar.Name + ".jpg";
                         System.IO.File.Copy(bar.ImgUrl, copyImagePath, true);
                         bar.ImgUrl = "/content/" + bar.Name + ".jpg";
                     }
-
 
                     bar.Type = type.ToList()[0];
                     _context.Add(bar);
@@ -137,14 +132,22 @@ namespace BALIBAR.Controllers
                     var type = _context.Type.Where(t => t.Name == typeName);
                     if (type.Count() != 0)
                     {
+                        var tempBar = _context.Bar.First(b => b.Id == bar.Id);
+
                         if (!String.IsNullOrEmpty(bar.ImgUrl))
                         {
-                            string copyImagePath = _env.WebRootPath + "\\content\\" + bar.Name + ".jpg";
-                            System.IO.File.Copy(bar.ImgUrl, copyImagePath, true);
-                            bar.ImgUrl = "/content/" + bar.Name + ".jpg";
+                            if (tempBar != null && 
+                                tempBar.ImgUrl != bar.ImgUrl && 
+                                System.IO.File.Exists(bar.ImgUrl)) {
+
+                                string copyImagePath = _env.WebRootPath + "\\content\\" + bar.Name + ".jpg";
+                                System.IO.File.Copy(bar.ImgUrl, copyImagePath, true);
+                                bar.ImgUrl = "/content/" + bar.Name + ".jpg";
+                            }
                         }
                         bar.Type = type.ToList()[0];
-                        _context.Update(bar);
+                        //_context.Update(bar);
+                        _context.Entry(tempBar).CurrentValues.SetValues(bar);
                         await _context.SaveChangesAsync();
                     }
                     else return new NotFoundViewResult("NotFoundError", "Bar type wasn't found");
@@ -163,7 +166,8 @@ namespace BALIBAR.Controllers
         {
             if (id == null) return new NotFoundViewResult("NotFoundError", "Bar wasn't found");
 
-            var bar = await _context.Bar.FirstOrDefaultAsync(b => b.Id == id);
+            var bar = await _context.Bar.Include("Type").SingleOrDefaultAsync(b => b.Id == id);
+
             if (bar == null) return new NotFoundViewResult("NotFoundError", "Bar wasn't found");
 
             return View(bar);

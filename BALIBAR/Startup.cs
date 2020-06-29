@@ -141,7 +141,7 @@ namespace BALIBAR
 
             var Tomer = new ApplicationUser { UserName = "tomer", Email = "tomer@gmail.com" };
             var resultTomer = await UserManager.CreateAsync(Tomer, "123456");
-            if (resultEden.Succeeded) UserManager.AddToRoleAsync(Tomer, "Admin").Wait();
+            if (resultTomer.Succeeded) UserManager.AddToRoleAsync(Tomer, "Admin").Wait();
 
         }
 

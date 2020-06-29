@@ -4,15 +4,16 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1>@Model.Name</h1>
 
-<h4>Bar</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" />
+
+        <div class="col-md-4">
+
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
@@ -28,10 +29,19 @@
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <br />
                 <label asp-for="Description" class="control-label"></label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
+
+            <div class="form-group">
+                <a asp-action="Index" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Back</a>
+                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
+            </div>
+
+        </div>
+        <div class="col-md-4">
             <div class="form-group">
                 <label asp-for="MaxParticipants" class="control-label"></label>
                 <input asp-for="MaxParticipants" class="form-control" />
@@ -52,6 +62,14 @@
                     <input class="form-check-input" asp-for="Accessible" /> @Html.DisplayNameFor(model => model.Accessible)
                 </label>
             </div>
+            @if (@Model.ImgUrl != "")
+            {
+                <div class="text-center">
+                    <img src=@Model.ImgUrl style="max-width: 200px; max-height:200px">
+                </div>
+            }
+        </div>
+        <div class="col-md-4">
             <div class="form-group">
                 <label asp-for="OpeningTime" class="control-label"></label>
                 <input asp-for="OpeningTime" class="form-control" />
@@ -68,19 +86,13 @@
                 <span asp-validation-for="MinAge" class="text-danger"></span>
             </div>
             <div class="form-group">
+
                 <label asp-for="ImgUrl" class="control-label"></label>
                 <input asp-for="ImgUrl" class="form-control" />
                 <span asp-validation-for="ImgUrl" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
+        </div>
+    </form>
 </div>
 
 @section Scripts {

@@ -14,6 +14,16 @@
     transition: .2s;
 }
 
+.bar-display {
+    margin: 1rem;
+    padding-bottom: 1rem;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-family: 'Microsoft JhengHei UI light';
+}
+
 .room-card {
     transition: .2s;
     background: #0595BE;
@@ -100,6 +110,19 @@
     padding: .5rem 2rem;
     border-radius: 10px;
 }
+
+
+.detailstag {
+    z-index: 2;
+    background: #6531d6;
+    color: white;
+    margin: 1rem;
+    font-size: 20px;
+    width: 157px;
+    padding: .5rem 2rem;
+    border-radius: 50px;
+}
+
 
 .recommended::after{
     content:"Recommended !";
