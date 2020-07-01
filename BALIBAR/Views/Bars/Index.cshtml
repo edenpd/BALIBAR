@@ -4,6 +4,15 @@
     ViewData["Title"] = "Our bars";
 }
 
+<div class="row">
+    <div class="col-md-12">
+        <div class="text-center weather-card" style="margin: auto; width: 100%; padding-left: 4vh;">
+            <a class="weatherwidget-io" href="https://forecast7.com/en/31d0534d85/israel/" data-label_1="ISRAEL" data-label_2="WEATHER" data-icons="Climacons Animated" data-mode="Current" data-days="3" data-theme="weather_one">ISRAEL WEATHER</a>
+            <p style="margin-top:20px">Pay attention to the weather and choose your bar accordingly</p>
+        </div>
+    </div>
+</div>
+
 <h1>Our bars</h1>
 
 <div class="row">
@@ -62,7 +71,10 @@
                     </div>
 
                     <div class="col-md-3 proptag">
-                        @curr.InOut
+                        @if (@curr.InOut == @InOutEnum.Both)
+                        {<div>In & Out</div> }
+                        else
+                        { <div>@curr.InOut</div>}
                     </div>
 
                     <div class="col-md-3 proptag">
@@ -79,8 +91,8 @@
             {
                 @if (User.IsInRole("Admin"))
                 {
-                    <a asp-action="Edit" asp-route-id="@curr.Id" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"/></a>
-                    <a asp-action="Delete" asp-route-id="@curr.Id" class="btn btn-danger"><span class="glyphicon glyphicon-trash"/></a>
+                    <a asp-action="Edit" asp-route-id="@curr.Id" class="btn btn-primary"><span class="glyphicon glyphicon-pencil" /></a>
+                    <a asp-action="Delete" asp-route-id="@curr.Id" class="btn btn-danger"><span class="glyphicon glyphicon-trash" /></a>
                 }
             }
         </div>
@@ -104,6 +116,18 @@
                 }
             }
         })
+    </script>
+
+    <script>
+        !function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (!d.getElementById(id)) {
+                js = d.createElement(s);
+                js.id = id;
+                js.src = 'https://weatherwidget.io/js/widget.min.js';
+                fjs.parentNode.insertBefore(js, fjs);
+            }
+        }(document, 'script', 'weatherwidget-io-js');
     </script>
 
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

@@ -6,20 +6,23 @@ using System.Net;
 using BALIBAR.Models;
 using Newtonsoft.Json;
 using Facebook;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace BALIBAR.Handlers
 {
-    public class FaceBookHandler
+    public class FaceBookHandler 
     {
-        private const string FacebookApiID = "1735489799967249";
-        private const string FacebookApiSecret = "d143113a444503cb28c6b28fe3cd5325";
+        private const string FacebookApiID = "2682828845371928";
+        private const string FacebookApiSecret = "e1654646df828222ff12a80f07ddb20c";
 
         private const string PageID = "103846034722719";                                      
-        private const string fb_exchange_token = "EAAEhHOxwCdkBACoT3cpwyZAsNRuRvaN6mS8fh3CVcMJibBPISqUUZBZAjZARfsGGy6l7NSZCXTL7u5lsmyMumNpDLfbOWPGZAv1ZCbWCZBcimmYWr069TD9BPDXZBbGcGbsyuXujieWDyZCrHUpTZAbSbEZAO6QZBRKpDyFUZC482wZCfodaLPo7zxZAqozBU3uZC6ZC69ZCiUL7KAPyBgQXZBoXUXlFYJs2ZCqa5Uj9upH6jFEIYejzX3wZDZD";
+        private const string fb_exchange_token = "EAAmIBMRSUhgBAFOgXAkFBpEsHAJjxB0q8qdZCL0w1gG0qHN9iOkJUPhb7QUsX1OulF3mGZCjjUEgftClz0NqTOI1JhxeUxI6ZCci2qhJTArZBDSqIxeFlkD8NPzFS3twnFAVv3nm4sGPqc4cbxQIvcNqUppZB1wWUEkhtEFzU0ybR76V02PIRSEFrVb3ZAj9qc5acH9iQ9IgZDZD";
 
         private const string AuthenticationUrlFormat =
             "https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id={0}&client_secret={1}&fb_exchange_token={2}";
-
 
         static string GetAccessToken(string apiID, string apiSecret, string pageID)
         {
@@ -47,31 +50,24 @@ namespace BALIBAR.Handlers
 
         public static void PostMessage(Bar bar)
         {
-            //try
-            //{
-            //    string accessToken = fb_exchange_token;
-            //    FacebookClient facebookClient = new FacebookClient(accessToken);
+            try
+            {
+                string accessToken = fb_exchange_token;
+                FacebookClient facebookClient = new FacebookClient(accessToken);
 
-            //    dynamic messagePost = new ExpandoObject();
-            //    messagePost.access_token = accessToken;
-            //    messagePost.message = "Check out the new bar: " + bar.Name + "\n\n Located in: " + bar.Address + "\n\n Recommended for " +
-            //        bar.Type.Name + "lovers!";
+                dynamic messagePost = new ExpandoObject();
+                messagePost.access_token = accessToken;
+                messagePost.message = "NEW!🎉 NEW!🎉 NEW!🎉\n\n" +
+                                      "Check Out our new bar " + bar.Name + " !🥳\n" +
+                                      "Highly recommended for " + bar.Type.Name + " lovers ⭐\n" +
+                                      "Come to visit us in " + bar.Address + " 📍";
 
-            //    string url = string.Format("/{0}/feed", PageID);
-            //    var result = facebookClient.Post(url, messagePost);
-            //}
-            //catch
-            //{
-
-            //}
-
-            //var client = new FacebookClient(fb_exchange_token);
-
-            //dynamic parameters = new ExpandoObject();
-            //parameters.title = "test title";
-            //parameters.message = "test message";
-
-            //var result = client.Post(PageID + "/feed", parameters);
+                string url = string.Format("/{0}/feed", PageID);
+                var result = facebookClient.Post(url, messagePost);
+            }
+            catch( IOException e)
+            {
+            }
         }
     }
 }

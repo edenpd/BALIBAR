@@ -81,11 +81,13 @@ namespace BALIBAR.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (!String.IsNullOrEmpty(bar.ImgUrl) && System.IO.File.Exists(bar.ImgUrl)) {
+                    if (!String.IsNullOrEmpty(bar.ImgUrl) && System.IO.File.Exists(bar.ImgUrl))
+                    {
                         string copyImagePath = _env.WebRootPath + "\\content\\" + bar.Name + ".jpg";
                         System.IO.File.Copy(bar.ImgUrl, copyImagePath, true);
                         bar.ImgUrl = "/content/" + bar.Name + ".jpg";
                     }
+                    else bar.ImgUrl = "";
 
                     bar.Type = type.ToList()[0];
                     _context.Add(bar);
@@ -137,12 +139,15 @@ namespace BALIBAR.Controllers
                         if (!String.IsNullOrEmpty(bar.ImgUrl))
                         {
                             if (tempBar != null && 
-                                tempBar.ImgUrl != bar.ImgUrl && 
-                                System.IO.File.Exists(bar.ImgUrl)) {
+                                tempBar.ImgUrl != bar.ImgUrl) {
 
-                                string copyImagePath = _env.WebRootPath + "\\content\\" + bar.Name + ".jpg";
-                                System.IO.File.Copy(bar.ImgUrl, copyImagePath, true);
-                                bar.ImgUrl = "/content/" + bar.Name + ".jpg";
+                                if (System.IO.File.Exists(bar.ImgUrl))
+                                {
+                                    string copyImagePath = _env.WebRootPath + "\\content\\" + bar.Name + ".jpg";
+                                    System.IO.File.Copy(bar.ImgUrl, copyImagePath, true);
+                                    bar.ImgUrl = "/content/" + bar.Name + ".jpg";
+                                }
+                                else bar.ImgUrl = "";
                             }
                         }
                         bar.Type = type.ToList()[0];

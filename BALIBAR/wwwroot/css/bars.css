@@ -39,6 +39,13 @@
     cursor: pointer;
     font-family: 'Microsoft JhengHei UI light';
 }
+
+.weather-card {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Microsoft JhengHei UI light';
+}
     .room-card.new {
         background: #1EDC3F;
         display: flex;
