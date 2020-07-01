@@ -13,6 +13,7 @@ using BALIBAR.Handlers;
 using System.IO;
 using Microsoft.Extensions.Hosting.Internal;
 using Microsoft.AspNetCore.Hosting;
+using System.Text.RegularExpressions;
 
 namespace BALIBAR.Controllers
 {
@@ -83,9 +84,9 @@ namespace BALIBAR.Controllers
                 {
                     if (!String.IsNullOrEmpty(bar.ImgUrl) && System.IO.File.Exists(bar.ImgUrl))
                     {
-                        string copyImagePath = _env.WebRootPath + "\\content\\" + bar.Name + ".jpg";
+                        string copyImagePath = _env.WebRootPath + "\\content\\" + Regex.Replace(bar.Name, @"\s+", "") + ".jpg";
                         System.IO.File.Copy(bar.ImgUrl, copyImagePath, true);
-                        bar.ImgUrl = "/content/" + bar.Name + ".jpg";
+                        bar.ImgUrl = "/content/" + Regex.Replace(bar.Name, @"\s+", "") + ".jpg";
                     }
                     else bar.ImgUrl = "";
 
@@ -143,15 +144,14 @@ namespace BALIBAR.Controllers
 
                                 if (System.IO.File.Exists(bar.ImgUrl))
                                 {
-                                    string copyImagePath = _env.WebRootPath + "\\content\\" + bar.Name + ".jpg";
+                                    string copyImagePath = _env.WebRootPath + "\\content\\" + Regex.Replace(bar.Name, @"\s+", "")  + ".jpg";
                                     System.IO.File.Copy(bar.ImgUrl, copyImagePath, true);
-                                    bar.ImgUrl = "/content/" + bar.Name + ".jpg";
+                                    bar.ImgUrl = "/content/" + Regex.Replace(bar.Name, @"\s+", "") + ".jpg";
                                 }
                                 else bar.ImgUrl = "";
                             }
                         }
                         bar.Type = type.ToList()[0];
-                        //_context.Update(bar);
                         _context.Entry(tempBar).CurrentValues.SetValues(bar);
                         await _context.SaveChangesAsync();
                     }

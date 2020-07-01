@@ -38,10 +38,12 @@ namespace BALIBAR.Models
         public string Description { get; set; }
 
         [Range(1, 1000)]
+        [Required]
         [Display(Name = "Max participants")]
         public int MaxParticipants { get; set; }
 
         [Display(Name = "In/Out")]
+        [Required]
         public InOutEnum InOut { get; set; }
 
         [Display(Name = "Kosher")]
@@ -63,6 +65,7 @@ namespace BALIBAR.Models
         public DateTime ClosingTime { get; set; }
 
         [Range(16, 120)]
+        [Required]
         [Display(Name = "Min Age")]
         public int MinAge { get; set; }
 
@@ -73,6 +76,5 @@ namespace BALIBAR.Models
         [Required]
         [Display(Name = "Type")]
         public Type Type { get; set; }
-
     }
 }
