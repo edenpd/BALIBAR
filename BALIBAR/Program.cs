@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Type = BALIBAR.Models.Type;
 
 namespace BALIBAR
 {
@@ -45,6 +46,58 @@ namespace BALIBAR
 
         private static void AddData(BALIBARContext context)
         {
+            // If bar type list is empty
+            if (!context.Type.Any())
+            {
+                var Types = new List<Type>
+                {
+                    new Type
+                    {
+                        Name = "Irish pub",
+                        Description = "Pub with irish design",
+                        MusicType = "All kinds"
+                    },
+
+                    new Type
+                    {
+                        Name = "Pizza bar",
+                        Description = "Pizza and beer",
+                        MusicType = "Pop"
+                    },
+
+                    new Type
+                    {
+                        Name = "Beach bar",
+                        Description = "Bar on the beach with the sound of the waves",
+                        MusicType = "Chill"
+                    },
+
+                    new Type
+                    {
+                        Name = "Beer factory",
+                        Description = "The beer you get is made in our place",
+                        MusicType = "All kinds"
+                    },
+
+                    new Type
+                    {
+                        Name = "Dance bar",
+                        Description = "Come to dance with us",
+                        MusicType = "All"
+                    },
+
+                    new Type
+                    {
+                        Name = "Open stage bar",
+                        Description = "Get on the stage and perdorm or sit back and enjoy the show",
+                        MusicType = "Live music"
+                    }
+                };
+                context.AddRange(Types);
+                context.SaveChanges();
+            }
+
+            // If bar list is empty
             if (!context.Bar.Any())
             {
                 var Bars = new List<Bar> {
@@ -79,7 +132,7 @@ namespace BALIBAR
                     ClosingTime = DateTime.Today.Add(TimeSpan.Parse("01:00:00")),
                     MinAge = 16,
                     ImgUrl = "/content/Goons.jpg",
-                    Type = context.Type.FirstOrDefault(t => t.Name == "Irish pub")
+                    Type = context.Type.FirstOrDefault(t => t.Name == "Pizza bar")
                 },
 
                 new Bar
@@ -95,7 +148,7 @@ namespace BALIBAR
                     ClosingTime = DateTime.Today.Add(TimeSpan.Parse("01:00:00")),
                     MinAge = 18,
                     ImgUrl = "/content/Mikesplace.jpg",
-                    Type = context.Type.FirstOrDefault(t => t.Name == "Irish pub")
+                    Type = context.Type.FirstOrDefault(t => t.Name == "Open stage bar")
                 },
 
                 new Bar
@@ -111,7 +164,7 @@ namespace BALIBAR
                     ClosingTime = DateTime.Today.Add(TimeSpan.Parse("01:00:00")),
                     MinAge = 18,
                     ImgUrl = "/content/Jems.jpg",
-                    Type = context.Type.FirstOrDefault(t => t.Name == "Irish pub")
+                    Type = context.Type.FirstOrDefault(t => t.Name == "Beer factory")
                 },
 
                 new Bar
@@ -127,7 +180,7 @@ namespace BALIBAR
                     ClosingTime = DateTime.Today.Add(TimeSpan.Parse("03:00:00")),
                     MinAge = 18,
                     ImgUrl = "/content/LimaLima.jpg",
-                    Type = context.Type.FirstOrDefault(t => t.Name == "Irish pub")
+                    Type = context.Type.FirstOrDefault(t => t.Name == "Dance bar")
                 }
 
 

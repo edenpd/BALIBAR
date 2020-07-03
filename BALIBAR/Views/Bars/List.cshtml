@@ -1,0 +1,62 @@
+﻿@model IEnumerable<BALIBAR.Models.Bar>
+
+
+<div id="barList">
+    @foreach (Bar curr in @Model)
+    {
+        <div class="row">
+            <div onclick="location.href='@Url.Action("Details", new { id=@curr.Id })'" class="room-card">
+                <div class="tag">@curr.Type.Name</div>
+                <section class="info">
+                    <h1>@curr.Name</h1>
+                    <h2>@curr.Address</h2>
+                    <div class="row rooms-container">
+                        <div class="col-md-3 proptag">
+                            @if (@curr.Kosher)
+                            {<div>Kosher</div> }
+                            else
+                            { <div>Not kosher</div>}
+                        </div>
+                        <div class="col-md-3 proptag">
+                            @if (@curr.Accessible)
+                            {<div>Accessible</div> }
+                            else
+                            { <div>Not accessible</div>}
+                        </div>
+
+                        <div class="col-md-3 proptag">
+                            @if (@curr.InOut == @InOutEnum.Both)
+                            {<div>In & Out</div> }
+                            else
+                            { <div>@curr.InOut</div>}
+                        </div>
+
+                        <div class="col-md-3 proptag">
+                            @curr.MinAge+
+                        </div>
+                    </div>
+                    <div class="rooms-container">
+                        <div class="row proptag">
+                            @curr.OpeningTime.ToShortTimeString() - @curr.ClosingTime.ToShortTimeString()
+                        </div>
+                    </div>
+                </section>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@curr.Id" class="btn btn-primary"><span class="glyphicon glyphicon-pencil" /></a>
+                        <a asp-action="Delete" asp-route-id="@curr.Id" class="btn btn-danger"><span class="glyphicon glyphicon-trash" /></a>
+                    }
+                }
+            </div>
+        </div>
+    }
+
+    @if (@Model.Count() == 0)
+    {
+        <center>
+            <h1>No bars were found</h1>
+        </center>
+    }
+</div>

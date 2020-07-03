@@ -19,7 +19,7 @@ namespace BALIBAR.Handlers
         private const string FacebookApiSecret = "e1654646df828222ff12a80f07ddb20c";
 
         private const string PageID = "103846034722719";                                      
-        private const string fb_exchange_token = "EAAmIBMRSUhgBAB4R9PTxdWkQYdsuvRrYNPIkg5ML3nIAyDEIafQJxIu9wH4pHljnd5PjuSY7vU9hSknTI3fOaVmZBsJ1YkZAYUYsZC7qI1UGzry10ywrQsVrWSGwiDLnLkZBhvBrjaL5JKR9HOCk33F274GgZBQu2p98fBlzVzjyZBcUHiD6Q0rJXIlEYYmxBjncMQVYP0GwZDZD";
+        private const string fb_exchange_token = "EAAmIBMRSUhgBABpCq38ewufVyhxcjjoXd0wZCYqHnTZCx33mlK9mpNvFOtzv6WOR8S9ZANpC1INk98afYrjCDuEBZBbS9Uj4Fdc7fyYH6qFr3Js215ZBeN4DZBSVPFcQMXr9VKT4q90kbZAp588rsRiZCNvshcZChPYHm1BrjsYRWK04MvoZCQRiPE";
 
         private const string AuthenticationUrlFormat =
             "https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id={0}&client_secret={1}&fb_exchange_token={2}";
@@ -69,5 +69,7 @@ namespace BALIBAR.Handlers
             {
             }
         }
+
+        public static void Post(Bar bar) { }
     }
 }
