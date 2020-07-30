@@ -4,14 +4,16 @@ using BALIBAR.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BALIBAR.Migrations
 {
     [DbContext(typeof(BALIBARContext))]
-    partial class BALIBARContextModelSnapshot : ModelSnapshot
+    [Migration("20200701153659_fix_required")]
+    partial class fix_required
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -136,34 +138,6 @@ namespace BALIBAR.Migrations
                     b.HasIndex("TypeId");
 
                     b.ToTable("Bar");
-                });
-
-            modelBuilder.Entity("BALIBAR.Models.Reservation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AttendeesNum")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("BarId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CustomerId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BarId");
-
-                    b.HasIndex("CustomerId");
-
-                    b.ToTable("Reservation");
                 });
 
             modelBuilder.Entity("BALIBAR.Models.Type", b =>
@@ -325,17 +299,6 @@ namespace BALIBAR.Migrations
                         .HasForeignKey("TypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("BALIBAR.Models.Reservation", b =>
-                {
-                    b.HasOne("BALIBAR.Models.Bar", "Bar")
-                        .WithMany()
-                        .HasForeignKey("BarId");
-
-                    b.HasOne("BALIBAR.Models.ApplicationUser", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

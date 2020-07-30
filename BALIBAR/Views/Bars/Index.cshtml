@@ -4,25 +4,35 @@
     ViewData["Title"] = "Our bars";
 }
 
-<h1>Our bars</h1>
-
 <div class="row">
     <div class="col-md-12">
-        <form class="form-inline filter" asp-controller="Bars" asp-action="Index">
+        <div class="text-center weather-card" style="margin: auto; width: 100%; padding-left: 5vh;">
+            <a class="weatherwidget-io" href="https://forecast7.com/en/31d0534d85/israel/" data-label_1="ISRAEL" data-label_2="WEATHER" data-font="Open Sans" data-icons="Climacons Animated" data-mode="Current" data-theme="weather_one">ISRAEL WEATHER</a>            <p style="margin-top:20px">Pay attention to the weather and choose your bar accordingly</p>
+        </div>
+    </div>
+</div>
+
+<center>
+    <h1>Our bars</h1>
+</center>
+
+<div class="row">
+    <div class="search-card">
+        <form id="searchForm" class="form-inline filter">
             <div class="form-group">
-                <label class="control-label" for="roomName">Bar name : </label>
+                <label class="control-label" for="barName">Bar name : </label>
                 <input class="form-control" type="text" name="barName">
             </div>
             <div class="form-group">
-                <label class="control-label" for="Type_Name">Club type : </label>
-                <select class="form-control" id="Type_Name" name="type"><option value="">All</option></select>
+                <label class="control-label" for="typeName">Bar type : </label>
+                <select class="form-control" id="Type_Name" name="typeName"><option value="">All</option></select>
             </div>
             <div class="form-group">
                 <label class="control-label" for="minAge">Min age : </label>
                 <input class="form-control" type="number" name="minAge" min="16" max="120">
             </div>
-            <div class="form-group submit">
-                <input class="btn btn-primary" type="submit" value="Search" />
+            <div class="form-group">
+                <button id="searchButton" type="button" class="btn btn-primary">Search</button>
             </div>
         </form>
     </div>
@@ -39,72 +49,26 @@
         }
     }
 </div>
-@foreach (Bar curr in @Model)
-{
-    <div class="row">
-        <div onclick="location.href='@Url.Action("Details", new { id=@curr.Id })'" class="room-card">
-            <div class="tag">@curr.Type.Name</div>
-            <section class="info">
-                <h1>@curr.Name</h1>
-                <h2>@curr.Address</h2>
-                <div class="row rooms-container">
-                    <div class="col-md-3 proptag">
-                        @if (@curr.Kosher)
-                        {<div>Kosher</div> }
-                        else
-                        { <div>Not kosher</div>}
-                    </div>
-                    <div class="col-md-3 proptag">
-                        @if (@curr.Accessible)
-                        {<div>Accessible</div> }
-                        else
-                        { <div>Not accessible</div>}
-                    </div>
-
-                    <div class="col-md-3 proptag">
-                        @curr.InOut
-                    </div>
-
-                    <div class="col-md-3 proptag">
-                        @curr.MinAge+
-                    </div>
-                </div>
-                <div class="rooms-container">
-                    <div class="row proptag">
-                        @curr.OpeningTime.ToShortTimeString() - @curr.ClosingTime.ToShortTimeString()
-                    </div>
-                </div>
-            </section>
-            @if (User.Identity.IsAuthenticated)
-            {
-                @if (User.IsInRole("Admin"))
-                {
-                    <a asp-action="Edit" asp-route-id="@curr.Id" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"/></a>
-                    <a asp-action="Delete" asp-route-id="@curr.Id" class="btn btn-danger"><span class="glyphicon glyphicon-trash"/></a>
-                }
-            }
-        </div>
-    </div>
-}
+<div id="barList">
+</div>
 
 @section Scripts {
-    <script type="text/javascript">
-        var url = "/Bars/GetTypesList"
-        var select = document.getElementById("Type_Name")
-        $.ajax({
-            type: 'GET',
-            url: url,
-            contentType: 'json',
-            success: function (genres) {
 
-                for (var i = 0; i < genres.length; i++) {
-                    var option = document.createElement("option");
-                    option.text = genres[i];
-                    select.add(option);
-                }
+    <script src="~/js/barList.js" ></script>
+
+    <script>
+        !function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (!d.getElementById(id)) {
+                js = d.createElement(s);
+                js.id = id;
+                js.src = 'https://weatherwidget.io/js/widget.min.js';
+                fjs.parentNode.insertBefore(js, fjs);
             }
-        })
+        }(document, 'script', 'weatherwidget-io-js');
     </script>
 
+
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
 }

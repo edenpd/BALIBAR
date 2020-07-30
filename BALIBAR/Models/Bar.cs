@@ -3,10 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 
 
 namespace BALIBAR.Models
 {
+
+    public enum InOutEnum
+    {
+        In,
+        Out,
+        [Display(Name = "In & Out")]
+        Both,
+    }
+
     public class Bar
     {
 
@@ -28,12 +38,13 @@ namespace BALIBAR.Models
         public string Description { get; set; }
 
         [Range(1, 1000)]
+        [Required]
         [Display(Name = "Max participants")]
         public int MaxParticipants { get; set; }
 
-        [DataType(DataType.Text)]
         [Display(Name = "In/Out")]
-        public string InOut { get; set; }
+        [Required]
+        public InOutEnum InOut { get; set; }
 
         [Display(Name = "Kosher")]
         public bool Kosher { get; set; }
@@ -54,6 +65,7 @@ namespace BALIBAR.Models
         public DateTime ClosingTime { get; set; }
 
         [Range(16, 120)]
+        [Required]
         [Display(Name = "Min Age")]
         public int MinAge { get; set; }
 
@@ -64,6 +76,5 @@ namespace BALIBAR.Models
         [Required]
         [Display(Name = "Type")]
         public Type Type { get; set; }
-
     }
 }

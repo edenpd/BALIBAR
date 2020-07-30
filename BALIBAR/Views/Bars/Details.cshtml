@@ -10,7 +10,6 @@
         <hr />
         <div class="row text-center">
             <div class="col-sm-12">
-                <h2>@Model.Type.Name</h2>
                 @if (@Model.ImgUrl != "")
                 {
                     <img src=@Model.ImgUrl style="  max-width: 200px;
@@ -19,6 +18,11 @@
                                                     margin-bottom: 1rem;">
                 }
                 <h3>@Model.Description</h3>
+                <div class="row rooms-container">
+                    <div class="col-md-12 detailstag">
+                        @Model.Type.Name
+                    </div>
+                </div>
                 <div class="row rooms-container">
                     <div class="col-md-4 detailstag">
                         @if (Model.Kosher)
@@ -34,7 +38,10 @@
                     </div>
 
                     <div class="col-md-4 detailstag">
-                        @Model.InOut
+                        @if (Model.InOut == @InOutEnum.Both)
+                        {<div>In & Out</div> }
+                        else
+                        { <div>@Model.InOut</div>}
                     </div>
                 </div>
                 <div class="row rooms-container">

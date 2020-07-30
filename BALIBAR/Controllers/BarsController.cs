@@ -13,6 +13,7 @@ using BALIBAR.Handlers;
 using System.IO;
 using Microsoft.Extensions.Hosting.Internal;
 using Microsoft.AspNetCore.Hosting;
+using System.Text.RegularExpressions;
 
 namespace BALIBAR.Controllers
 {
@@ -30,21 +31,10 @@ namespace BALIBAR.Controllers
 
         // GET: Bars
         [Authorize]
-        public async Task<IActionResult> Index(string barName, string typeName, int minAge)
+        //public async Task<IActionResult> Index(string barName, string typeName, int minAge)
+        public async Task<IActionResult> Index()
         {
-            var bars = from bar in _context.Bar
-                        select bar;
-
-            if (!String.IsNullOrEmpty(barName))
-                bars = bars.Where(b => b.Name.Contains(barName));
-
-            if (minAge > 0)
-                bars = bars.Where(b => (b.MinAge >= minAge ));
-
-            if (!String.IsNullOrEmpty(typeName))
-                bars = bars.Where(b => b.Type.Name.Equals(typeName));
-
-            return View(await bars.Include(b => b.Type).ToListAsync());
+            return View();
         }
 
         // GET: Bars/Details/5
@@ -81,11 +71,13 @@ namespace BALIBAR.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (!String.IsNullOrEmpty(bar.ImgUrl) && System.IO.File.Exists(bar.ImgUrl)) {
-                        string copyImagePath = _env.WebRootPath + "\\content\\" + bar.Name + ".jpg";
+                    if (!String.IsNullOrEmpty(bar.ImgUrl) && System.IO.File.Exists(bar.ImgUrl))
+                    {
+                        string copyImagePath = _env.WebRootPath + "\\content\\" + Regex.Replace(bar.Name, @"\s+", "") + ".jpg";
                         System.IO.File.Copy(bar.ImgUrl, copyImagePath, true);
-                        bar.ImgUrl = "/content/" + bar.Name + ".jpg";
+                        bar.ImgUrl = "/content/" + Regex.Replace(bar.Name, @"\s+", "") + ".jpg";
                     }
+                    else bar.ImgUrl = "";
 
                     bar.Type = type.ToList()[0];
                     _context.Add(bar);
@@ -137,16 +129,18 @@ namespace BALIBAR.Controllers
                         if (!String.IsNullOrEmpty(bar.ImgUrl))
                         {
                             if (tempBar != null && 
-                                tempBar.ImgUrl != bar.ImgUrl && 
-                                System.IO.File.Exists(bar.ImgUrl)) {
+                                tempBar.ImgUrl != bar.ImgUrl) {
 
-                                string copyImagePath = _env.WebRootPath + "\\content\\" + bar.Name + ".jpg";
-                                System.IO.File.Copy(bar.ImgUrl, copyImagePath, true);
-                                bar.ImgUrl = "/content/" + bar.Name + ".jpg";
+                                if (System.IO.File.Exists(bar.ImgUrl))
+                                {
+                                    string copyImagePath = _env.WebRootPath + "\\content\\" + Regex.Replace(bar.Name, @"\s+", "")  + ".jpg";
+                                    System.IO.File.Copy(bar.ImgUrl, copyImagePath, true);
+                                    bar.ImgUrl = "/content/" + Regex.Replace(bar.Name, @"\s+", "") + ".jpg";
+                                }
+                                else bar.ImgUrl = "";
                             }
                         }
                         bar.Type = type.ToList()[0];
-                        //_context.Update(bar);
                         _context.Entry(tempBar).CurrentValues.SetValues(bar);
                         await _context.SaveChangesAsync();
                     }
@@ -190,6 +184,25 @@ namespace BALIBAR.Controllers
                 return new UnableToDeleteViewResult("UnableToDeleteError", "Unable to delete specified room. There are reservations associated with that room!");
             }
             
+        }
+
+        [Authorize]
+        public IActionResult Search(string barName, string typeName, int minAge)
+        {
+            var bars = from bar in _context.Bar
+                       select bar;
+            bars = bars.OrderBy(b => b.Name);
+
+            if (!String.IsNullOrEmpty(barName))
+                bars = bars.Where(b => b.Name.ToUpper().Contains(barName.ToUpper()));
+
+            if (minAge > 0)
+                bars = bars.Where(b => (b.MinAge >= minAge));
+
+            if (!String.IsNullOrEmpty(typeName))
+                bars = bars.Where(b => b.Type.Name.Equals(typeName));
+
+            return PartialView("List", bars.Include(b => b.Type).ToList());
         }
 
         private bool BarExists(int id)

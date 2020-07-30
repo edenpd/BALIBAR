@@ -1,9 +1,9 @@
 ﻿body {
     background-color: #f1f4f7;
     background-image: url("/content/wallpaper.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    font-family: "Roboto";
+    /*    background-repeat: no-repeat;*/
+    background-size: auto;
+    font-family: 'Microsoft JhengHei UI light';
     font-size: 16px;
 }
 
