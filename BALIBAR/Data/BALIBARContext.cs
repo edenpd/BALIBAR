@@ -17,6 +17,7 @@ namespace BALIBAR.Data
 
         public DbSet<BALIBAR.Models.Bar> Bar { get; set; }
         public DbSet<BALIBAR.Models.Type> Type { get; set; } 
+        public DbSet<BALIBAR.Models.Reservation> Reservation { get; set; }
 
     }
 }
