@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BALIBAR.Data;
 using BALIBAR.Models;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -46,10 +47,9 @@ namespace BALIBAR
 
         private static void AddData(BALIBARContext context)
         {
-            // If bar type list is empty
-            if (!context.Type.Any())
-            {
-                var Types = new List<Type>
+
+            var Eden = new ApplicationUser { UserName = "eden", Email = "eden@gmail.com" };
+            var Types = new List<Type>
                 {
                     new Type
                     {
@@ -93,14 +93,7 @@ namespace BALIBAR
                         MusicType = "Live music"
                     }
                 };
-                context.AddRange(Types);
-                context.SaveChanges();
-            }
-
-            // If bar list is empty
-            if (!context.Bar.Any())
-            {
-                var Bars = new List<Bar> {
+            var Bars = new List<Bar> {
 
                 new Bar
                 {
@@ -185,9 +178,61 @@ namespace BALIBAR
 
 
             };
-                context.AddRange(Bars);
+            var Reservations = new List<Reservation> {
+
+                new Reservation()
+                {
+                    Customer = Eden,
+                    DateTime = new DateTime(2020,11,15,11,00,00),
+                    Bar = Bars[0],
+                    AttendeesNum = 5
+                },
+
+                new Reservation()
+                {
+                    Customer = Eden,
+                    DateTime = new DateTime(2020,11,15,11,00,00),
+                    Bar = Bars[1],
+                    AttendeesNum = 4
+                },
+
+                new Reservation()
+                {
+                    Customer = Eden,
+                    DateTime = new DateTime(2020,11,15,11,00,00),
+                    Bar = Bars[2],
+                    AttendeesNum = 2
+                },
+
+                new Reservation()
+                {
+                    Customer = Eden,
+                    DateTime = new DateTime(2020,11,15,11,00,00),
+                    Bar = Bars[0],
+                    AttendeesNum = 2
+                },
+            };
+
+            // If bar type list is empty
+            if (!context.Type.Any())
+            {
+                context.Type.AddRange(Types);
                 context.SaveChanges();
             }
+
+            // If bar list is empty
+            if (!context.Bar.Any())
+            {
+                context.Bar.AddRange(Bars);
+                context.SaveChanges();
+            }
+
+            if (!context.Reservation.Any())
+            {
+                context.Reservation.AddRange(Reservations);
+                context.SaveChanges();
+            }
+
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

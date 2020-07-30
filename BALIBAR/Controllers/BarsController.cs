@@ -37,6 +37,13 @@ namespace BALIBAR.Controllers
             return View();
         }
 
+        // GET: Bars/Admin
+        [Authorize(Roles = "Admin")]
+        public IActionResult Admin()
+        {
+            return View();
+        }
+
         // GET: Bars/Details/5
         [Authorize]
         public async Task<IActionResult> Details(int? id)
@@ -213,6 +220,62 @@ namespace BALIBAR.Controllers
         public IActionResult GetTypesList()
         {
             return Json(_context.Type.Select(t => t.Name).ToList());
+        }
+
+        //[HttpGet]
+        //[Authorize]
+        //public async Task<JsonResult> UserRecommendedBars()
+        //{
+        //    ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
+        //    var all_bars = _context.Bar.ToList();
+        //    var all_reservations = _context.Reservation.Include(x => x.Bar.Type).ToList();
+        //    var user_interests = _context.Reservation.Where(r => r.User.Id == user.Id).Select(x => x.EscapeRoom.Genre).Distinct().ToList();
+        //    this._rc.Train(all_reservations, user_interests);
+        //    var recommended = this._rc.PredictRecommendedRooms(all_escape_rooms).Take(3).ToList();
+
+        //    return Json(recommended.Select(x => x.Id));
+        //}
+
+        [Authorize(Roles = "Admin")]
+        public JsonResult MostPopularBars()
+        {
+            var result = this._context.Reservation.Include(x => x.Bar).GroupBy(x => x.Bar.Name).Select(x =>
+            new
+            {
+                BarName = x.Key,
+                Reservations = x.ToList().Count()
+            }).OrderByDescending(x => x.Reservations).Take(5).ToList();
+
+            return Json(result);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public JsonResult RoomOrdersCountByMonth()
+        {
+            var result = this._context.Reservation.Where(r => r.DateTime.Year == DateTime.Now.Year).GroupBy(x => x.DateTime.Month).Select(s =>
+              new { Month = s.Key, Reservations = s.ToList().Count() }).ToList();
+
+            for (int i = 1; i <= 12; i++)
+            {
+                var found = false;
+                for (int j = 0; j < result.Count; j++)
+                    if (result[j].Month == i)
+                        found = true;
+
+                if (found == false)
+                {
+                    var emptyMonth = new
+                    {
+                        Month = i,
+                        Reservations = 0
+                    };
+                    result.Add(emptyMonth);
+                }
+            }
+
+            result = result.OrderBy(o => o.Month).ToList();
+
+            return Json(result);
         }
     }
 }

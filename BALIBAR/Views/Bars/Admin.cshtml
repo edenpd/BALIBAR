@@ -1,0 +1,55 @@
+﻿@if (User.Identity.IsAuthenticated)
+{
+    @if (User.IsInRole("Admin"))
+    {
+        <div class="profitable-wrapper text-center">
+            <h2 class="mb-2">Most popular Bars</h2>
+            <div id="most-profitable-bars-chart"></div>
+        </div>
+
+        <div class="profitable-wrapper text-center">
+            <h2 class="mb-2">Monthly reservations</h2>
+            <div id="monthly-reservations-chart"></div>
+        </div>
+    }
+}
+
+@*<script>
+        $.ajax({
+            url: "/Bars/UserRecommendedBars",
+            context: document.body
+        }).done(function (data) {
+            recommended_rooms_ids = data
+            if (recommended_rooms_ids.length) {
+                $(".room-card").each(function (index) {
+                    let room_id = Number($(this).children("input").first().val());
+
+                    if ($.inArray(room_id, data) != -1) {
+                        $(this).children(".info").first().addClass('recommended');
+                    }
+                });
+            }
+        });
+    </script>*@
+@if (User.Identity.IsAuthenticated)
+{
+    @if (User.IsInRole("Admin"))
+    {
+        <script type="text/javascript">
+            $.ajax({
+                url: "/Bars/MostPopularBars",
+                context: document.body
+            }).done(function (data) {
+                create_pie_chart(data, "#most-profitable-bars-chart");
+            });
+
+            $.ajax({
+                url: "/Bars/RoomOrdersCountByMonth",
+                context: document.body
+            }).done(function (data) {
+                create_bar_chart(data, "#monthly-reservations-chart");
+            });
+
+        </script>
+    }
+}

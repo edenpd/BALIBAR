@@ -26,6 +26,10 @@
                 <ul class="nav navbar-nav">
                     <li><a asp-controller="Home" asp-action="Index">About us</a></li>
                     <li><a asp-controller="Bars" asp-action="Index">Our Bars</a></li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li><a asp-controller="Bars" asp-action="Admin">Stats</a></li>
+                    }
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     @await Html.PartialAsync("_LoginPartial")
@@ -34,7 +38,7 @@
         </nav>
         <partial name="_CookieConsentPartial" />
     </header>
-    <div class="container"  style="padding-bottom:2rem">
+    <div class="container" style="padding-bottom:2rem">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -52,6 +56,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/app.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>
