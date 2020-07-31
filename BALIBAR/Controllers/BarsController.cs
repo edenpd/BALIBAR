@@ -229,9 +229,9 @@ namespace BALIBAR.Controllers
         //    ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
         //    var all_bars = _context.Bar.ToList();
         //    var all_reservations = _context.Reservation.Include(x => x.Bar.Type).ToList();
-        //    var user_interests = _context.Reservation.Where(r => r.User.Id == user.Id).Select(x => x.EscapeRoom.Genre).Distinct().ToList();
+        //    var user_interests = _context.Reservation.Where(r => r.Customer.Id == user.Id).Select(x => x.Bar.Type).Distinct().ToList();
         //    this._rc.Train(all_reservations, user_interests);
-        //    var recommended = this._rc.PredictRecommendedRooms(all_escape_rooms).Take(3).ToList();
+        //    var recommended = this._rc.PredictRecommendedRooms(all_bars).Take(3).ToList();
 
         //    return Json(recommended.Select(x => x.Id));
         //}
@@ -243,6 +243,19 @@ namespace BALIBAR.Controllers
             new
             {
                 BarName = x.Key,
+                Reservations = x.ToList().Count()
+            }).OrderByDescending(x => x.Reservations).Take(5).ToList();
+
+            return Json(result);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public JsonResult MostPopularTypes()
+        {
+            var result = this._context.Reservation.Include(x => x.Bar).GroupBy(x => x.Bar.Type.Name).Select(x =>
+            new
+            {
+                TypeName = x.Key,
                 Reservations = x.ToList().Count()
             }).OrderByDescending(x => x.Reservations).Take(5).ToList();
 

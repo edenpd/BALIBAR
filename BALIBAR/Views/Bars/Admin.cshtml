@@ -1,18 +1,27 @@
-﻿@if (User.Identity.IsAuthenticated)
-{
-    @if (User.IsInRole("Admin"))
+﻿@*@if (User.Identity.IsAuthenticated)
     {
-        <div class="profitable-wrapper text-center">
-            <h2 class="mb-2">Most popular Bars</h2>
-            <div id="most-profitable-bars-chart"></div>
-        </div>
+        @if (User.IsInRole("Admin"))
+        {*@
+<div class="row" style="display: flex;">
+    <div class="text-center stat-card col-md-6" style="width: 600px;">
+        <h2 class="ma-2">Top Bars</h2>
+        <div id="top-bars-chart"></div>
+    </div>
+    <div class="text-center stat-card col-md-6" style="width: 600px;">
+        <h2 class="ma-2">Top bar types</h2>
+        <div id="top-types-chart"></div>
+    </div>
+</div>
+<div class="row" style="display: flex;">
 
-        <div class="profitable-wrapper text-center">
-            <h2 class="mb-2">Monthly reservations</h2>
-            <div id="monthly-reservations-chart"></div>
-        </div>
-    }
-}
+    <div class="text-center stat-card">
+        <h2 class="mt-2">Monthly reservations</h2>
+        <div id="monthly-reservations-chart"></div>
+    </div>
+</div>
+
+@*}
+    }*@
 
 @*<script>
         $.ajax({
@@ -31,6 +40,9 @@
             }
         });
     </script>*@
+
+<script src="~/js/app.js"></script>
+
 @if (User.Identity.IsAuthenticated)
 {
     @if (User.IsInRole("Admin"))
@@ -40,7 +52,14 @@
                 url: "/Bars/MostPopularBars",
                 context: document.body
             }).done(function (data) {
-                create_pie_chart(data, "#most-profitable-bars-chart");
+                create_pie_chart(data, "#top-bars-chart");
+            });
+
+            $.ajax({
+                url: "/Bars/MostPopularTypes",
+                context: document.body
+            }).done(function (data) {
+                create_type_pie_chart(data, "#top-types-chart");
             });
 
             $.ajax({
@@ -53,3 +72,4 @@
         </script>
     }
 }
+

@@ -23,6 +23,19 @@
     cursor: pointer;
 }
 
+.stat-card {
+    background: #292929;
+    margin: 1rem;
+    padding-bottom: 1rem;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 2px 2px 20px #000000;
+    border-radius: 20px;
+}
+
 .room-card {
     transition: .2s;
     background: #0595BE;
