@@ -23,24 +23,6 @@
 @*}
     }*@
 
-@*<script>
-        $.ajax({
-            url: "/Bars/UserRecommendedBars",
-            context: document.body
-        }).done(function (data) {
-            recommended_rooms_ids = data
-            if (recommended_rooms_ids.length) {
-                $(".room-card").each(function (index) {
-                    let room_id = Number($(this).children("input").first().val());
-
-                    if ($.inArray(room_id, data) != -1) {
-                        $(this).children(".info").first().addClass('recommended');
-                    }
-                });
-            }
-        });
-    </script>*@
-
 <script src="~/js/app.js"></script>
 
 @if (User.Identity.IsAuthenticated)
