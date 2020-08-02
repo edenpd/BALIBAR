@@ -5,11 +5,17 @@
     @foreach (Bar curr in @Model)
     {
         <div class="row">
-            <div onclick="location.href='@Url.Action("Details", new { id=@curr.Id })'" class="room-card">
-                <div class="tag">@curr.Type.Name</div>
+            <div onclick="location.href='@Url.Action("Details", new { id=@curr.Id })'" class="room-card" data-value="@curr.Id">
+                <div>
+                    <div class="tag">@curr.Type.Name</div>
+                    <div id="recommended"></div>
+                </div>
                 <section class="info">
-                    <h1>@curr.Name</h1>
-                    <h2>@curr.Address</h2>
+                    <div>
+                        <h1>@curr.Name</h1>
+                        <h2>@curr.Address</h2>
+                    </div>
+
                     <div class="row rooms-container">
                         <div class="col-md-3 proptag">
                             @if (@curr.Kosher)

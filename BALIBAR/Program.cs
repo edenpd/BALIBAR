@@ -49,6 +49,7 @@ namespace BALIBAR
         {
 
             var Eden = new ApplicationUser { UserName = "eden", Email = "eden@gmail.com" };
+
             var Types = new List<Type>
                 {
                     new Type
