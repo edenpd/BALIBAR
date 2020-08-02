@@ -4,41 +4,69 @@
     ViewData["Title"] = "Create";
 }
 
+@*@section Styles {
+    <link href="~/css/reservations.css" rel="stylesheet" type="text/css" />
+}*@
+
 <h1>Create</h1>
 
 <h4>Reservation</h4>
 <hr />
-<div class="input-group mb-3">
-    <select class="custom-select" id="inputGroupSelect02">
-        <option selected>Choose...</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-    </select>
-    <div class="input-group-append">
-        <label class="input-group-text" for="inputGroupSelect02">Options</label>
-    </div>
-</div>
+<div class="container create_reservation">
+    <row>
+        <div class="col-sm-12 reservation_header">
+            <img src="~/img/create_header.jpg" />
+        </div>
+    </row>
+    <div class="row">
+        <div class="col-sm-6">
+            <h2>The Perfect Bar Experience</h2>
+            <p>
+                Pick one of our exclusive bars. We do not simply offer tables and drinks. We provide experiences.
+            </p>
+            <blockquote>
+                "I made a reservation for a pub I've never heard of in my city. I did not expect to have the night of my dreams. I met my girlfriend right there on the dance bar, and got to mmet a ton of new friends. Truly, a night to remember."
+                <small>Tomer Erusalimsky</small>
+            </blockquote>
+            <blockquote>
+                "It's been three days since I've been to the pub, and I'm still drunk!"
+                <small>Ron Avraham</small>
+            </blockquote>
+            <blockquote>
+                "Never mix whiskey and Tooby...I can't stop throwing up. WORTH IT!"
+                <small>Eden Podoksik</small>
+            </blockquote>
+        </div>
+        <div class="col-sm-6">
+            <h3>Make A Reservation</h3>
+            <p>
+                Make a reservation at one of our registered bars and pubs from all around the world and have an experience you won't forget.
+            </p>
+            <form asp-action="Create">
+                <div class="form-group">
+                    <label for="select_attendees">Number Of Attendees</label>
+                    <select asp-for="AttendeesNum" class="form-control" id="select_attendees">
+                        <option selected>Number Of Attendees</option>
+                        <option value="1">One person</option>
+                        @for (int i = 0; i < 11; i++)
+                        {
+                            <option value="@i">@i people</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="select_bar">Bar</label>
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="DateTime" class="control-label"></label>
-                <input asp-for="DateTime" class="form-control" />
-                <span asp-validation-for="DateTime" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AttendeesNum" class="control-label"></label>
-                <input asp-for="AttendeesNum" class="form-control" />
-                <span asp-validation-for="AttendeesNum" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+                    @Html.DropDownListFor(model => model.BarID, null, String.Empty, htmlAttributes: new { @class = "form-control", @id = "select_bar" })
+                    @*@Html.DropDownList("BarID", null, htmlAttributes: new {  @class = "form-control", @id = "select_bar"})*@
+                </div>
+                <div class="form-group">
+                    <label for="input_date">Date & Time</label>
+                    <input asp-for="DateTime" class="form-control" id="input_date" />
+                </div>
+                <button type="submit" value="Create" class="btn btn-dark">Book</button>
+            </form>
+        </div>
     </div>
 </div>
 
@@ -49,97 +77,3 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-
-<div class="input-group">
-    <div class="input-group-prepend">
-        <label class="input-group-text" for="inputGroupSelect01">Options</label>
-    </div>
-    <select asp-for="AttendeesNum" id="inputGroupSelect01" class="custom-select input-group-append">
-        <option selected>כמות מוזמנים</option>
-        <option value="1">אדם אחד</option>
-        <option value="2">2 אנשים</option>
-        <option value="3">3 אנשים</option>
-        <option value="4">4 אנשים</option>
-        <option value="5">5 אנשים</option>
-        <option value="6">6 אנשים</option>
-        <option value="7">7 אנשים</option>
-        <option value="8">8 אנשים</option>
-        <option value="9">9 אנשים</option>
-        <option value="10">10 אנשים</option>
-    </select>
-    <input asp-for="DateTime" type="text" class="form-control input-group-append" placeholder="תאריך" />
-    <input type="date" />
-</div>
-
-<div class="mx-auto" width="950px">
-    <div class="row">
-        <div class="col-sm-12">
-            <img src="~/img/create_header.jpg" />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-2">
-            <img class="img-thumbnail" src="placeholder bar icon" />
-        </div>
-        <div class="col-sm-8">
-
-            <div class="row">
-                <div class="col-sm-12">
-                    Name
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    Location
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    Genres
-                </div>
-            </div>
-
-        </div>
-        <div class="col-sm-2">
-            X
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-8">
-            @*<div class="input-group" >
-                    <div class="input-group-prepend">
-                        <label class="input-group-text" for="inputGroupSelect01">Options</label>
-                    </div>
-                    <select asp-for="AttendeesNum" id="inputGroupSelect01"class="custom-select">
-                        <option selected>כמות מוזמנים</option>
-                        <option value="1">אדם אחד</option>
-                        <option value="2">2 אנשים</option>
-                        <option value="3">3 אנשים</option>
-                        <option value="4">4 אנשים</option>
-                        <option value="5">5 אנשים</option>
-                        <option value="6">6 אנשים</option>
-                        <option value="7">7 אנשים</option>
-                        <option value="8">8 אנשים</option>
-                        <option value="9">9 אנשים</option>
-                        <option value="10">10 אנשים</option>
-                    </select>
-                    <input asp-for="DateTime" type="text" class="form-control input-group-append" placeholder="תאריך" />
-                    <input type="date" />
-                </div>*@
-            <div class="input-group mb-3">
-                <select class="custom-select" id="inputGroupSelect02">
-                    <option selected>Choose...</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-                <div class="input-group-append">
-                    <label class="input-group-text" for="inputGroupSelect02">Options</label>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-4">
-
-        </div>
-    </div>
-</div>

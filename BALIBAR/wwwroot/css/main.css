@@ -197,3 +197,13 @@ footer {
 body {
     color: white;
 }
+
+@media (min-width: 1200px) {
+    .container {
+        width: 950px;
+    }
+}
+
+.col-sm-12, .reservation_header {
+    padding: 0px;
+}

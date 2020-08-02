@@ -46,6 +46,7 @@ namespace BALIBAR.Controllers
         // GET: Reservations/Create
         public IActionResult Create()
         {
+            PopulateBarsDropDownList();
             return View();
         }
 
@@ -54,7 +55,7 @@ namespace BALIBAR.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,DateTime,AttendeesNum")] Reservation reservation)
+        public async Task<IActionResult> Create([Bind("Id,DateTime,AttendeesNum,BarID")] Reservation reservation)
         {
             if (ModelState.IsValid)
             {
@@ -148,6 +149,14 @@ namespace BALIBAR.Controllers
         private bool ReservationExists(int id)
         {
             return _context.Reservation.Any(e => e.Id == id);
+        }
+
+        private void PopulateBarsDropDownList(object selectedBars = null)
+        {
+            var barQuery = from b in _context.Bar
+                           select b;
+
+            ViewBag.BarID = new SelectList(barQuery, "Id", "Name", selectedBars);
         }
     }
 }

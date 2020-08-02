@@ -19,6 +19,8 @@ namespace BALIBAR.Models
         [Display(Name = "Music Bar")]
         public Bar Bar { get; set; }
 
+        public int BarID { get; set; }
+
         [Display(Name = "Number Of Attendees")]
         public int AttendeesNum { get; set; }
     }
