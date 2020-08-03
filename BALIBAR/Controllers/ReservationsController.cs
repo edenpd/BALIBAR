@@ -7,22 +7,27 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BALIBAR.Data;
 using BALIBAR.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace BALIBAR.Controllers
 {
     public class ReservationsController : Controller
     {
-        private readonly BALIBARContext _context;
 
-        public ReservationsController(BALIBARContext context)
+        // Data Members
+        private readonly BALIBARContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public ReservationsController(BALIBARContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Reservations
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Reservation.ToListAsync());
+            return View(await _context.Reservation.Include(r => r.Bar).ToListAsync());
         }
 
         // GET: Reservations/Details/5
@@ -44,8 +49,13 @@ namespace BALIBAR.Controllers
         }
 
         // GET: Reservations/Create
-        public IActionResult Create()
+        public IActionResult Create(string? barId)
         {
+            // Check if the id field is filled, and if so, hide the bar field.
+            ViewBag.showBars = barId == null || barId == "";
+            TempData["barId"] = barId;
+            TempData["showBars"] = ViewBag.showBars; 
+
             PopulateBarsDropDownList();
             return View();
         }
@@ -59,6 +69,14 @@ namespace BALIBAR.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Get the connected user.
+                ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
+                reservation.Customer = user;
+
+                // If the bar was already selected beforehand - add it here.
+                if (!(bool)TempData["showBars"])
+                    reservation.BarID = (int)TempData["barId"];
+
                 _context.Add(reservation);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
