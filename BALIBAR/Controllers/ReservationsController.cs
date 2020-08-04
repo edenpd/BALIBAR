@@ -25,9 +25,32 @@ namespace BALIBAR.Controllers
         }
 
         // GET: Reservations
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string barName, DateTime fromDate, DateTime toDate)
         {
-            return View(await _context.Reservation.Include(r => r.Bar).ToListAsync());
+            IQueryable<Reservation> students = _context.Reservation.Include(r => r.Bar);
+
+            // Build the where clause according to the filter parameters:
+            // Check is the barname filter was filled
+            if (!String.IsNullOrEmpty(barName))
+            {
+                students = students.Where(r => r.Bar.Name.Contains(barName));
+            }
+            
+            // Check if the fromDate filter was filled
+            if (fromDate != DateTime.MinValue)
+            {
+                students = students.Where(r => r.DateTime.Date >= fromDate.Date);
+            }
+
+            // Check if the toDate filter was filled
+            if (toDate != DateTime.MinValue)
+            {
+                students = students.Where(r => r.DateTime.Date <= toDate);
+            }
+
+            List<Reservation> list = await students.ToListAsync();
+
+            return View(list);
         }
 
         // GET: Reservations/Details/5
@@ -75,7 +98,7 @@ namespace BALIBAR.Controllers
 
                 // If the bar was already selected beforehand - add it here.
                 if (!(bool)TempData["showBars"])
-                    reservation.BarID = (int)TempData["barId"];
+                    reservation.BarID = Int32.Parse(TempData["barId"] as string);
 
                 _context.Add(reservation);
                 await _context.SaveChangesAsync();
@@ -107,7 +130,7 @@ namespace BALIBAR.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,DateTime,AttendeesNum")] Reservation reservation)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,DateTime,AttendeesNum,BarID")] Reservation reservation)
         {
             if (id != reservation.Id)
             {
