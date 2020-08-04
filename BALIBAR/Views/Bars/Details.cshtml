@@ -9,6 +9,11 @@
     <div>
         <hr />
         <div class="row text-center">
+            <div class="row rooms-container"  onclick="location.href='@Url.Action("Create","Reservations", new { barId=@Model.Id })'">
+                <div class="col-md-12 reservationtag">
+                    Book a place <span class="glyphicon glyphicon-glass"></span>
+                </div>
+            </div>
             <div class="col-sm-12">
                 @if (@Model.ImgUrl != "")
                 {
