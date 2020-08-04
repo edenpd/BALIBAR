@@ -26,6 +26,7 @@
                 <ul class="nav navbar-nav">
                     <li><a asp-controller="Home" asp-action="Index">About us</a></li>
                     <li><a asp-controller="Bars" asp-action="Index">Our Bars</a></li>
+                    <li><a asp-controller="Reservations" asp-action="Index">Reservations</a></li>
                     @if (User.IsInRole("Admin"))
                     {
                         <li><a asp-controller="Bars" asp-action="Admin">Stats</a></li>

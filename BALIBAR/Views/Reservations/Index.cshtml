@@ -32,7 +32,6 @@
                                 <a asp-action="Edit" asp-route-id="@res[i * 3 + j].Id" class="card-link">Edit</a> |
                                 <a asp-action="Details" asp-route-id="@res[i * 3 + j].Id" class="card-link">Details</a> |
                                 <a asp-action="Delete" asp-route-id="@res[i * 3 + j].Id" class="card-link">Delete</a>
-                                <a class="delete_reservation card-link" onclick="ConfirmDelete(@res[i * 3 + j].Id)">delete text</a>
                             </div>
                             <ul class="list-group list-group-flush" height="100%">
                                 <li class="list-group-item res_card_litem">@res[i * 3 + j].DateTime.ToString()</li>
