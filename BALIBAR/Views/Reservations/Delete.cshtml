@@ -4,10 +4,71 @@
     ViewData["Title"] = "Delete";
 }
 
-<h1>Delete</h1>
+<h1>Cancel</h1>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
+<h3>Are you sure you want to cancel your reservation?</h3>
+
+<div class="container create_reservation">
+    <row>
+        <div class="col-sm-12 reservation_header">
+            <img src="~/img/create_header.jpg" />
+        </div>
+    </row>
+    <div class="row">
+        <div class="col-sm-6">
+            <h2>The Perfect Bar Experience</h2>
+            <p>
+                Pick one of our exclusive bars. We do not simply offer tables and drinks. We provide experiences.
+            </p>
+            <blockquote>
+                "I made a reservation for a pub I've never heard of in my city. I did not expect to have the night of my dreams. I met my girlfriend right there on the dance bar, and got to mmet a ton of new friends. Truly, a night to remember."
+                <small>Tomer Erusalimsky</small>
+            </blockquote>
+            <blockquote>
+                "It's been three days since I've been to the pub, and I'm still drunk!"
+                <small>Ron Avraham</small>
+            </blockquote>
+            <blockquote>
+                "Never mix whiskey and Tooby...I can't stop throwing up. WORTH IT!"
+                <small>Eden Podoksik</small>
+            </blockquote>
+        </div>
+        <div class="col-sm-6">
+            <h3>Cancel your reservation</h3>
+            <p>
+                We get it. Sometimes your date can't show up because she's gotta go to work early in the morning.
+                Maybe your friends simply aren't in the mood, or you just prefer to stay at home and watch Netflix.
+                Canceling a reservation is as easy as pressing the button below.
+            </p>
+            <div>
+                <h4>Reservation</h4>
+                <hr />
+
+                <table class="table table-dark">
+                    <thead>
+                        <tr>
+                            <th scope="col">@Html.DisplayNameFor(model => model.DateTime)</th>
+                            <th scope="col">@Html.DisplayNameFor(model => model.AttendeesNum)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@Html.DisplayFor(model => model.DateTime)</td>
+                            <td>@Html.DisplayNameFor(model => model.AttendeesNum)</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="Id" />
+                    <input type="submit" value="Delete" class="btn btn-danger" /> |
+                    <a asp-action="Index">Back to List</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<div>
     <h4>Reservation</h4>
     <hr />
     <dl class="row">
@@ -30,4 +91,4 @@
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>
-</div>
+</div>*@

@@ -97,6 +97,8 @@ namespace BALIBAR.Controllers
             {
                 return NotFound();
             }
+
+            PopulateBarsDropDownList();
             return View(reservation);
         }
 

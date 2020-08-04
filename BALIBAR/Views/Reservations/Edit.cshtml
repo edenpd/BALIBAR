@@ -8,7 +8,72 @@
 
 <h4>Reservation</h4>
 <hr />
-<div class="row">
+<div class="container create_reservation">
+    <row>
+        <div class="col-sm-12 reservation_header">
+            <img src="~/img/create_header.jpg" />
+        </div>
+    </row>
+    <div class="row">
+        <div class="col-sm-6">
+            <h2>The Perfect Bar Experience</h2>
+            <p>
+                Pick one of our exclusive bars. We do not simply offer tables and drinks. We provide experiences.
+            </p>
+            <blockquote>
+                "I made a reservation for a pub I've never heard of in my city. I did not expect to have the night of my dreams. I met my girlfriend right there on the dance bar, and got to mmet a ton of new friends. Truly, a night to remember."
+                <small>Tomer Erusalimsky</small>
+            </blockquote>
+            <blockquote>
+                "It's been three days since I've been to the pub, and I'm still drunk!"
+                <small>Ron Avraham</small>
+            </blockquote>
+            <blockquote>
+                "Never mix whiskey and Tooby...I can't stop throwing up. WORTH IT!"
+                <small>Eden Podoksik</small>
+            </blockquote>
+        </div>
+        <div class="col-sm-6">
+            <h3>Edit A Reservation</h3>
+            <p>
+                Want to mix it up a bit? You can freely change any detail about your reservation. Craft the experience that best suits you!
+            </p>
+            <form asp-action="Edit">
+                <div class="form-group">
+                    <label for="select_attendees">Number Of Attendees</label>
+                    <select asp-for="AttendeesNum" class="form-control" id="select_attendees">
+                        <option selected>Number Of Attendees</option>
+                        <option value="1">One person</option>
+                        @for (int i = 0; i < 11; i++)
+                        {
+                            <option value="@i">@i people</option>
+                        }
+                    </select>
+                </div>
+                @*@if (ViewBag.showBars)
+        {*@
+                <div class="form-group">
+                    <label for="select_bar">Bar</label>
+                    @Html.DropDownListFor(model => model.BarID, null, String.Empty, htmlAttributes: new { @class = "form-control", @id = "select_bar" })
+                    @*@Html.DropDownListFor(model => model.BarID, null, String.Empty, htmlAttributes: new { @class = "form-control", @id = "select_bar" })*@
+                    @*@Html.DropDownList("BarID", null, htmlAttributes: new {  @class = "form-control", @id = "select_bar"})*@
+                </div>
+                @*}*@
+                <div class="form-group">
+                    <label for="input_date">Date & Time</label>
+                    <input asp-for="DateTime" class="form-control" id="input_date" />
+                </div>
+                <button type="submit" value="Save" class="btn btn-dark">Book</button>
+                <a asp-action="Index">Back to List</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+@*<div>
+    <a asp-action="Index">Back to List</a>
+</div>*@
+@*<div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -28,11 +93,11 @@
             </div>
         </form>
     </div>
-</div>
+</div>*@
 
-<div>
+@*<div>
     <a asp-action="Index">Back to List</a>
-</div>
+</div>*@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

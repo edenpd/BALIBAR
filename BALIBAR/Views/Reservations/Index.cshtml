@@ -12,33 +12,150 @@
 
 @{int i = 0;
     int j = 0;
+    Reservation selectedRes = new Reservation();
     Reservation[] res = Model.ToArray(); }
 
-@for (i = 0; i * 3 + j < res.Length; i++) {
-<div class="row">
-    <div class="card-deck">
-        @for (; i * 3 + j < res.Length && j < 3; j++)
-        {
-            <div class="col-sm-4">
-                <div class="card reservation_card" style="width: 18rem;">
-                    <img class="card-img-top" src=@res[i * 3 + j].Bar.ImgUrl alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">@res[i * 3 + j].Bar.Name</h5>
+<div id="reservations">
+    @for (i = 0; i * 3 + j < res.Length; i++)
+    {
+        <div class="row">
+            <div class="card-deck">
+                @for (; i * 3 + j < res.Length && j < 3; j++)
+                {
+                    <div class="col-sm-4">
+                        <div class="card reservation_card" style="width: 18rem;">
+                            <img class="card-img-top" src=@res[i * 3 + j].Bar.ImgUrl alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">@res[i * 3 + j].Bar.Name</h5>
+                            </div>
+                            <div class="card-body">
+                                <a asp-action="Edit" asp-route-id="@res[i * 3 + j].Id" class="card-link">Edit</a> |
+                                <a asp-action="Details" asp-route-id="@res[i * 3 + j].Id" class="card-link">Details</a> |
+                                <a asp-action="Delete" asp-route-id="@res[i * 3 + j].Id" class="card-link">Delete</a>
+                                <a class="delete_reservation card-link" onclick="ConfirmDelete(@res[i * 3 + j].Id)">delete text</a>
+                            </div>
+                            <ul class="list-group list-group-flush" height="100%">
+                                <li class="list-group-item res_card_litem">@res[i * 3 + j].DateTime.ToString()</li>
+                                <li class="list-group-item res_card_litem">@res[i * 3 + j].AttendeesNum Attendees</li>
+                                <li class="list-group-item res_card_litem">@res[i * 3 + j].Bar.Address</li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <a asp-action="Edit" asp-route-id="@res[i * 3 + j].Id" class="card-link">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@res[i * 3 + j].Id" class="card-link">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@res[i * 3 + j].Id" class="card-link">Delete</a>
-                    </div>
-                    <ul class="list-group list-group-flush" height="100%">
-                        <li class="list-group-item res_card_litem">@res[i * 3 + j].DateTime.ToString()</li>
-                        <li class="list-group-item res_card_litem">@res[i * 3 + j].AttendeesNum Attendees</li>
-                        <li class="list-group-item res_card_litem">@res[i * 3 + j].Bar.Address</li>
-                    </ul>
+                }
+            </div>
+        </div>
+        j = 0;
+    }
+</div>
+
+@*<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h3 class="modal-title">Delete Employee</h3>
+            </div>
+            <div class="modal-body">
+                <h4>Are you sure you want to Remove this Employee?</h4>
+
+
+
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Cancel</a>
+                <a href="#" class="btn btn-success" onclick="DeleteEmployee()">Confirm</a>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>*@
+
+
+@*hidden field for storing current employeeId*@
+@*<input type="hidden" id="hiddenEmployeeId" />
+
+@section scripts{
+    <script>
+
+
+
+        var ConfirmDelete = function (EmployeeId) {
+            console.log("Test1");
+            $("#hiddenEmployeeId").val(EmployeeId);
+            console.log("Test2");
+            $("#myModal").modal('show');
+            console.log("Test3");
+
+        }
+
+        var DeleteEmployee = function () {
+
+
+
+            var empId = $("#hiddenEmployeeId").val();*@
+
+            //$.ajax({
+
+                //type: "POST",
+                //url: "Reservations/Delete/" + empId,
+                //data: { Id: empId },
+                //success: function (result) {
+
+                    //$("#myModal").modal("hide");
+                    //$("#row_" + empId).remove();
+
+            //    }
+
+            //})
+
+        @*}
+
+
+
+    </script>
+
+}
+
+<form asp-action="Delete">
+    <div id="myModal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Modal body text goes here.</p>
+                </div>
+                <div class="modal-footer">
+                    <button asp-action="Delete" value="Delete" onclick="DeleteEmployee()" type="button" class="btn btn-primary">Save changes</button>
+                    <button type="submit" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
-        }
+        </div>
     </div>
-</div>
-    j = 0;
-}
+</form>*@
+
+@*<div class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Modal body text goes here.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>*@

@@ -236,3 +236,12 @@ a.card-link {
     background-color: white;
     border-radius: 5px;
 }
+
+.res_det {
+    background: rgba(0, 0, 0, 0) !important;
+    color: white !important;
+    border-color: rgba(0,0,0,0) !important;
+    outline: 0px !important;
+    -webkit-appearance: none !important;
+    box-shadow: none !important;
+}
