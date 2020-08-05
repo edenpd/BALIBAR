@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200805175422_ResCustID.cs" />
+    <Compile Remove="Migrations\20200805175422_ResCustID.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="bootstrap" Version="4.5.0" />
     <PackageReference Include="Facebook" Version="7.0.6" />
     <PackageReference Include="MaterialIcons" Version="1.0.3" />
