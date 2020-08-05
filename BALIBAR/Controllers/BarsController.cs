@@ -34,7 +34,6 @@ namespace BALIBAR.Controllers
         }
 
         // GET: Bars
-        [Authorize]
         //public async Task<IActionResult> Index(string barName, string typeName, int minAge)
         public async Task<IActionResult> Index()
         {
@@ -49,7 +48,6 @@ namespace BALIBAR.Controllers
         }
 
         // GET: Bars/Details/5
-        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null) return new NotFoundViewResult("NotFoundError", "Bar wasn't found");
@@ -197,7 +195,6 @@ namespace BALIBAR.Controllers
             
         }
 
-        [Authorize]
         public IActionResult Search(string barName, string typeName, int minAge)
         {
             var bars = from bar in _context.Bar
@@ -213,7 +210,11 @@ namespace BALIBAR.Controllers
             if (!String.IsNullOrEmpty(typeName))
                 bars = bars.Where(b => b.Type.Name.Equals(typeName));
 
-            return PartialView("List", bars.Include(b => b.Type).ToList());
+            if (bars.Count() > 0)
+                return PartialView("List", bars.Include(b => b.Type).ToList());
+            else return PartialView("List", new List<Bar>());
+
+
         }
 
         private bool BarExists(int id)
