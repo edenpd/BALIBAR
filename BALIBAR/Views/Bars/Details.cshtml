@@ -24,7 +24,7 @@
                 }
                 <h3>@Model.Description</h3>
                 <div class="row rooms-container">
-                    <div class="col-md-12 detailstag">
+                    <div class="col-md-12 typetag" onclick="location.href='@Url.Action("Details","Types", new { id = @Model.Type.Id })'">
                         @Model.Type.Name
                     </div>
                 </div>
