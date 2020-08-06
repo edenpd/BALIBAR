@@ -1,14 +1,44 @@
 ﻿@model IEnumerable<BALIBAR.Models.Type>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Bar types";
 }
 
-<h1>Index</h1>
+<h1>Bar types</h1>
+@{int i = 0;
+    int j = 0;
+    BALIBAR.Models.Type selectedType = new BALIBAR.Models.Type();
+    BALIBAR.Models.Type[] typ = Model.ToArray(); }
+<div class="row">
+    <div class="search-card">
+        <form id="searchForm" class="form-inline filter">
+            <div class="form-group">
+                <label class="control-label" for="barName">Bar Type name : </label>
+                <input class="form-control" type="text" name="barTypeName">
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="minAge">Music type : </label>
+                <input class="form-control" type="text" name="musicTypeName">
+            </div>
+            <div class="form-group">
+                <button id="searchButton" type="button" class="btn btn-primary">Search</button>
+            </div>
+        </form>
+    </div>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<div class="row">
+    @if (User.Identity.IsAuthenticated)
+    {
+        @if (User.IsInRole("Admin"))
+        {
+            <div onclick="location.href='@Url.Action("Create")'" class="room-card new">
+                <h1>Add new bar type</h1>
+            </div>
+        }
+    }
+</div>
+
 <table class="table">
     <thead>
         <tr>
@@ -25,23 +55,81 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MusicType)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MusicType)
+                </td>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <td>
+
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    }
+                }
+            </tr>
+        }
     </tbody>
 </table>
+
+@for (i = 0; i * 3 + j < typ.Length; i++)
+{
+<div class="row">
+
+        @for (; i * 3 + j < typ.Length && j < 3; j++)
+        {
+    <div class="col-sm-4" style="padding-top: 4em;padding-bottom: 4em;">
+        <div class="card-deck">
+            <div class="card  reservation_card">
+                <div class="card-body text-center">
+                    <h2 class="card-title">Bar type name</h2>
+                    <h4 class="card-text">@typ[i * 3 + j].Name</h4>
+
+
+                </div>
+            </div>
+            <div class="card  reservation_card">
+                <div class="card-body">
+                    <h2 class="card-title">Description</h2>
+                    <h4 class="card-text">@typ[i * 3 + j].Description</h4>
+                </div>
+            </div>
+
+            <div class="card  reservation_card">
+                <div class="card-body">
+                    <h2 class="card-title">Music Genre in the bar</h2>
+                    <h4 class="card-text">@typ[i * 3 + j].MusicType</h4>
+                </div>
+            </div>
+
+
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                @if (User.IsInRole("Admin"))
+                {
+                    <div class="card-body">
+                        <a asp-action="Edit" asp-route-id="@typ[i * 3 + j].Id" class="card-link">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@typ[i * 3 + j].Id" class="card-link">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@typ[i * 3 + j].Id" class="card-link">Delete</a>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+        }
+    </div>
+    j = 0;
+    }
