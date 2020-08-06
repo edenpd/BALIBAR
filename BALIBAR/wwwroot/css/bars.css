@@ -88,11 +88,11 @@
     overflow-y: hidden;
 }
 
-.room-card.banner:hover {
-    transform: none;
-    transition: 0s;
-    cursor: default;
-}
+    .room-card.banner:hover {
+        transform: none;
+        transition: 0s;
+        cursor: default;
+    }
 
 .room-card > .info {
     text-align: center;
@@ -141,6 +141,41 @@
     border-radius: 10px;
 }
 
+.typetag {
+    transition: .2s;
+    z-index: 2;
+    background: #0595BE;
+    color: white;
+    margin: 1rem;
+    font-size: 20px;
+    width: 220px;
+    padding: .5rem 2rem;
+    border-radius: 50px;
+    box-shadow: 2px 2px 15px #000000;
+}
+
+.typetag:hover {
+    transform: scale(1.05);
+    transition: .2s;
+}
+
+.reservationtag {
+    transition: .2s;
+    z-index: 2;
+    background: #6bf25c;
+    color: white;
+    margin: 1rem;
+    font-size: 20px;
+    width: 220px;
+    padding: .5rem 2rem;
+    border-radius: 50px;
+    box-shadow: 2px 2px 15px #000000;
+}
+
+    .reservationtag:hover {
+        transform: scale(1.05);
+        transition: .2s;
+    }
 
 .detailstag {
     z-index: 2;
