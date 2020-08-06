@@ -84,6 +84,14 @@ namespace BALIBAR.Controllers
                 return NotFound();
             }
 
+            // Get the connected user.
+            ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
+
+            if (!User.IsInRole("Admin") && !user.Id.Equals(reservation.CustomerId))
+            {
+                return NotFound();
+            }
+
             return View(reservation);
         }
 
@@ -140,7 +148,15 @@ namespace BALIBAR.Controllers
                 return NotFound();
             }
 
-            PopulateBarsDropDownList();
+            // Get the connected user.
+            ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
+
+            if (!User.IsInRole("Admin") && !user.Id.Equals(reservation.CustomerId))
+            {
+                return NotFound();
+            }
+
+                PopulateBarsDropDownList();
             return View(reservation);
         }
 
@@ -192,6 +208,14 @@ namespace BALIBAR.Controllers
             var reservation = await _context.Reservation
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (reservation == null)
+            {
+                return NotFound();
+            }
+
+            // Get the connected user.
+            ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
+
+            if (!User.IsInRole("Admin") && !user.Id.Equals(reservation.CustomerId))
             {
                 return NotFound();
             }
