@@ -13,6 +13,8 @@ namespace BALIBAR.Models
         [Display(Name = "Customer")]
         public ApplicationUser Customer { get; set; }
 
+        public string CustomerId { get; set; }
+
         [Display(Name = "Date & Time")]
         public DateTime DateTime { get; set; }
 

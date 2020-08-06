@@ -16,52 +16,58 @@
     Reservation[] res = Model.ToArray(); }
 
 <div id="reservations">
-    @using (Html.BeginForm("Index", "Reservations", FormMethod.Get))
-    {
-    <form>
-        <div class="form-group">
-            <label for="formGroupExampleInput">Bar name</label>
-            <input name="barName" type="text" class="form-control" id="formGroupExampleInput" placeholder="Bar">
-        </div>
-        <div class="form-group">
-            <label for="formGroupExampleInput2">From Date</label>
-            <input name="fromDate" type="date" class="form-control" id="formGroupExampleInput2" placeholder="From Date">
-        </div>
-        <div class="form-group">
-            <label for="formGroupExampleInput2">To Date</label>
-            <input name="toDate" type="date" class="form-control" id="formGroupExampleInput2" placeholder="To Date">
-        </div>
-        <input type="submit" value="Search" />
-    </form>
-    }
-
-    @for (i = 0; i * 3 + j < res.Length; i++)
-    {
         <div class="row">
-            <div class="card-deck">
-                @for (; i * 3 + j < res.Length && j < 3; j++)
+            <div class="search-card">
+                @using (Html.BeginForm("Index", "Reservations", FormMethod.Get, new { @class = "form-inline filter" }))
                 {
-                    <div class="col-sm-4">
-                        <div class="card reservation_card" style="width: 18rem;">
-                            <img class="card-img-top" src=@res[i * 3 + j].Bar.ImgUrl alt="Card image cap">
-                            <div class="card-body">
-                                <h5 class="card-title">@res[i * 3 + j].Bar.Name</h5>
-                            </div>
-                            <div class="card-body">
-                                <a asp-action="Edit" asp-route-id="@res[i * 3 + j].Id" class="card-link">Edit</a> |
-                                <a asp-action="Details" asp-route-id="@res[i * 3 + j].Id" class="card-link">Details</a> |
-                                <a asp-action="Delete" asp-route-id="@res[i * 3 + j].Id" class="card-link">Delete</a>
-                            </div>
-                            <ul class="list-group list-group-flush" height="100%">
-                                <li class="list-group-item res_card_litem">@res[i * 3 + j].DateTime.ToString()</li>
-                                <li class="list-group-item res_card_litem">@res[i * 3 + j].AttendeesNum Attendees</li>
-                                <li class="list-group-item res_card_litem">@res[i * 3 + j].Bar.Address</li>
-                            </ul>
+                    <form id="searchForm">
+                        <div class="form-group">
+                            <label class="control-label" for="barName">Bar name : </label>
+                            <input class="form-control" type="text" name="barName">
                         </div>
-                    </div>
+                        <div class="form-group">
+                            <label class="control-label" for="fromDate">From Date</label>
+                            <input name="fromDate" type="date" class="form-control" id="formGroupExampleInput2" placeholder="From Date">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="toDate">To Date</label>
+                            <input name="toDate" type="date" class="form-control" id="formGroupExampleInput2" placeholder="To Date">
+                        </div>
+                        <div class="form-group">
+                            <button id="searchButton" value="Search" type="submit" class="btn btn-primary">Search</button>
+                        </div>
+                    </form>
                 }
-            </div>
+                </div>
         </div>
-        j = 0;
-    }
-</div>
+
+        @for (i = 0; i * 3 + j < res.Length; i++)
+        {
+            <div class="row">
+                <div class="card-deck">
+                    @for (; i * 3 + j < res.Length && j < 3; j++)
+                    {
+                        <div class="col-sm-4">
+                            <div class="card reservation_card" style="width: 18rem;">
+                                <img class="card-img-top" src=@res[i * 3 + j].Bar.ImgUrl alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title">@res[i * 3 + j].Bar.Name</h5>
+                                </div>
+                                <div class="card-body">
+                                    <a asp-action="Edit" asp-route-id="@res[i * 3 + j].Id" class="card-link">Edit</a> |
+                                    <a asp-action="Details" asp-route-id="@res[i * 3 + j].Id" class="card-link">Details</a> |
+                                    <a asp-action="Delete" asp-route-id="@res[i * 3 + j].Id" class="card-link">Delete</a>
+                                </div>
+                                <ul class="list-group list-group-flush" height="100%">
+                                    <li class="list-group-item res_card_litem">@res[i * 3 + j].DateTime.ToString()</li>
+                                    <li class="list-group-item res_card_litem">@res[i * 3 + j].AttendeesNum Attendees</li>
+                                    <li class="list-group-item res_card_litem">@res[i * 3 + j].Bar.Address</li>
+                                </ul>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            j = 0;
+        }
+    </div>

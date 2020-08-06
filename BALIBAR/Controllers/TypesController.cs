@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BALIBAR.Data;
 using BALIBAR.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace BALIBAR.Controllers
 {
@@ -39,6 +40,8 @@ namespace BALIBAR.Controllers
             {
                 return NotFound();
             }
+
+            HttpContext.Session.SetString("barTypeName", type.Name);
 
             return View(@type);
         }
