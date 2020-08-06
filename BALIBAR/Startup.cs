@@ -24,7 +24,7 @@ namespace BALIBAR
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-        }
+        }   
 
         public IConfiguration Configuration { get; }
 
@@ -46,6 +46,8 @@ namespace BALIBAR
             services.AddIdentity<ApplicationUser, IdentityRole>()
            .AddEntityFrameworkStores<BALIBARContext>()
            .AddDefaultTokenProviders();
+            services.AddSession();
+
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -97,6 +99,7 @@ namespace BALIBAR
             app.UseAuthentication();
             app.UseRouting();
             app.UseAuthorization();
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

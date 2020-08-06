@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting.Internal;
 using Microsoft.AspNetCore.Hosting;
 using System.Text.RegularExpressions;
 using BALIBAR.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace BALIBAR.Controllers
 {
@@ -33,10 +34,10 @@ namespace BALIBAR.Controllers
             _rc = new RecommendationService();
         }
 
-        // GET: Bars
-        //public async Task<IActionResult> Index(string barName, string typeName, int minAge)
         public async Task<IActionResult> Index()
         {
+            ViewBag.typeName = HttpContext.Session.GetString("barTypeName");
+            //ViewBag.typeName = id;
             return View();
         }
 
@@ -197,6 +198,7 @@ namespace BALIBAR.Controllers
 
         public IActionResult Search(string barName, string typeName, int minAge)
         {
+            ViewBag.typeName = "";
             var bars = from bar in _context.Bar
                        select bar;
             bars = bars.OrderBy(b => b.Name);
@@ -213,8 +215,6 @@ namespace BALIBAR.Controllers
             if (bars.Count() > 0)
                 return PartialView("List", bars.Include(b => b.Type).ToList());
             else return PartialView("List", new List<Bar>());
-
-
         }
 
         private bool BarExists(int id)
@@ -224,21 +224,32 @@ namespace BALIBAR.Controllers
 
         public IActionResult GetTypesList()
         {
-            return Json(_context.Type.Select(t => t.Name).ToList());
+            var types = from bar in _context.Bar
+                        join type in _context.Type on bar.Type.Id equals type.Id
+                        
+                        select new { type.Name }
+                        ;
+
+            return Json(types.Distinct().ToList());
+            //return Json(_context.Type.Select(t => t.Name).ToList());
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<JsonResult> UserRecommendedBars()
         {
-            ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
-            var all_bars = _context.Bar.ToList();
-            var all_reservations = _context.Reservation.Include(x => x.Bar.Type).ToList();
-            var user_interests = _context.Reservation.Where(r => r.Customer.Id == user.Id).Select(x => x.Bar.Type).Distinct().ToList();
-            this._rc.Train(all_reservations, user_interests);
-            var recommended = this._rc.PredictRecommendedRooms(all_bars).Take(3).ToList();
+            if (User.Identity.IsAuthenticated)
+            {
+                ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
+                var all_bars = _context.Bar.ToList();
+                var all_reservations = _context.Reservation.Include(x => x.Bar.Type).ToList();
+                var user_interests = _context.Reservation.Where(r => r.Customer.Id == user.Id).Select(x => x.Bar.Type).Distinct().ToList();
+                this._rc.Train(all_reservations, user_interests);
+                var recommended = this._rc.PredictRecommendedRooms(all_bars).Take(3).ToList();
 
-            return Json(recommended.Select(x => x.Id));
+                return Json(recommended.Select(x => x.Id));
+            }
+            return Json(new int[0]);
+            
         }
 
         [Authorize(Roles = "Admin")]

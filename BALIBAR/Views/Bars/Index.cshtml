@@ -4,10 +4,14 @@
     ViewData["Title"] = "Our bars";
 }
 
+<div id="snackbar">
+    Login to get recommendations for bars
+</div>
+
 <div class="row">
     <div class="col-md-12">
         <div class="text-center weather-card" style="margin: auto; width: 100%; padding-left: 3vh;">
-            <a class="weatherwidget-io" href="https://forecast7.com/en/31d0534d85/israel/" data-label_1="ISRAEL" data-label_2="WEATHER" data-font="Open Sans" data-icons="Climacons Animated" data-mode="Current" data-theme="weather_one">ISRAEL WEATHER</a>            
+            <a class="weatherwidget-io" href="https://forecast7.com/en/31d0534d85/israel/" data-label_1="ISRAEL" data-label_2="WEATHER" data-font="Open Sans" data-icons="Climacons Animated" data-mode="Current" data-theme="weather_one"></a>
             <p style="margin-top:20px">Pay attention to the weather and choose your bar accordingly</p>
         </div>
     </div>
@@ -26,7 +30,14 @@
             </div>
             <div class="form-group">
                 <label class="control-label" for="typeName">Bar type : </label>
-                <select class="form-control" id="Type_Name" name="typeName"><option value="">All</option></select>
+                <select class="form-control" id="Type_Name" name="typeName">
+                    @if (ViewBag.typeName == null)
+                    {
+                        <option value="">All</option>
+                    } else {
+                    <option value="@ViewBag.typeName">@ViewBag.typeName</option>
+                    }
+                </select>
             </div>
             <div class="form-group">
                 <label class="control-label" for="minAge">Min age : </label>
