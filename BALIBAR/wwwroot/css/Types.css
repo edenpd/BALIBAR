@@ -1,192 +1,40 @@
-﻿#myMap {
-    margin: 1em;
-}
-
-.rooms-container {
-    display: flex;
-    justify-content: center;
-    align-content: flex-start;
-    flex-wrap: wrap;
-}
-
-.room-card:hover {
-    transform: scale(1.05);
-    transition: .2s;
-}
-
-.bar-display {
-    margin: 1rem;
-    padding-bottom: 1rem;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-}
-
-.stat-card {
-    background: #292929;
-    margin: 1rem;
-    padding-bottom: 1rem;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 2px 2px 20px #000000;
+﻿.card.types_card {
+    background-color: white;
+    color: dodgerblue;
     border-radius: 20px;
 }
 
-.room-card {
-    transition: .2s;
-    background: #0595BE;
-    margin: 1rem;
-    padding-bottom: 1rem;
-    width: 100%;
-    min-height: 100px;
-    max-height: 400px;
+.card-header-text {
     text-align: center;
-    align-items: center;
-    justify-content: center;
+    padding-top: 5px;
+}
+
+.type_contaniner {
+    padding-bottom: 1em;
+    margin: 3em;
+    background-color: dodgerblue;
+    opacity: 0.8;
+    border-radius: 35px;
     box-shadow: 2px 2px 15px #000000;
     cursor: pointer;
+    transition: .2s;
+    z-index: 2;
 }
 
-.search-card {
-    margin-left: 15px;
-    margin-bottom: 1rem;
-    margin-top: 1rem;
-    background: black;
-    display: flex;
-    width: 100%;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 5px 10px rgba(0,0,0,0.16), 0 5px 10px rgba(0,0,0,0.23);
-    background: rgba(0, 0, 0, 0.6);
-}
-
-.weather-card {
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-}
-
-.room-card.new {
-    background: #1EDC3F;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100px;
-    color: white;
-    box-shadow: 0 5px 10px rgba(0,0,0,0.16), 0 5px 10px rgba(0,0,0,0.23);
-}
-
-.room-card.banner {
-    width: 100%;
-    height: 180px;
-    overflow-y: hidden;
-}
-
-.room-card.banner:hover {
-    transform: none;
-    transition: 0s;
-    cursor: default;
-}
-
-.room-card > .info {
-    text-align: center;
-    margin: 1rem 0;
-    padding-top: 1rem;
-}
-
-.room-card > img {
-    width: 100%;
-}
-
-.room-card > .info > .location {
-}
-
-    .room-card > .info > .location > img {
-        width: 12px;
-        height: 12px;
-        margin-right: -12px;
+    .type_contaniner:hover {
+        transition: .2s;
+        transform: scale(1.05);
     }
 
-.room-card > .info > h1, .room-card > .info > h3 {
+.sperator {
+    padding: 0;
     margin: 0;
+    border-top: 1px solid dodgerblue;
+    margin: auto;
+    width: 80%;
 }
 
-
-.tag {
-    z-index: 2;
-    position: absolute;
-    background: #5918DE;
-    color: white;
-    margin: 1rem;
-    font-size: 20px;
-    min-width: 100px;
-    padding: .5rem 2rem;
-    border-radius: 999px;
-}
-
-.proptag {
-    z-index: 2;
-    background: #B353CB;
-    color: white;
-    margin: 1rem;
-    font-size: 20px;
-    width: 230px;
-    padding: .5rem 2rem;
-    border-radius: 10px;
-}
-
-.reservationtag {
-    transition: .2s;
-    z-index: 2;
-    background: #6bf25c;
-    color: white;
-    margin: 1rem;
-    font-size: 20px;
-    width: 220px;
-    padding: .5rem 2rem;
-    border-radius: 50px;
-    box-shadow: 2px 2px 15px #000000;
-}
-.reservationtag:hover {
-    transform: scale(1.05);
-    transition: .2s;
-}
-
-.detailstag {
-    z-index: 2;
-    background: #6531d6;
-    color: white;
-    margin: 1rem;
-    font-size: 20px;
-    width: 157px;
-    padding: .5rem 2rem;
-    border-radius: 50px;
-}
-
-
-.recommended::after {
-    z-index: 2;
-    position: absolute;
-    background: #5918DE;
-    color: white;
-    margin-top: 1rem;
-    margin-left: 22rem;
-    font-size: 20px;
-    min-width: 100px;
-    padding: .5rem 2rem;
-    border-radius: 999px;
-    content: "Recommended !";
-    animation: blinker 1s linear infinite;
-}
-
-@keyframes blinker {
-    50% {
-        opacity: 0;
-    }
+.row-centered {
+    justify-content: center;
+    align-self: center;
 }
