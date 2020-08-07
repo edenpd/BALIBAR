@@ -4,7 +4,9 @@
     ViewData["Title"] = "Bar types";
 }
 
-<h1>Bar types</h1>
+<center>
+    <h1>Bar types</h1>
+</center>
 @{int i = 0;
     int j = 0;
     BALIBAR.Models.Type selectedType = new BALIBAR.Models.Type();
@@ -84,8 +86,8 @@
                     {
                         @if (User.IsInRole("Admin"))
                         {
-                            <div class="card-body" style="padding-top:10px;">
-                                <a asp-action="Edit" asp-route-id="@typ[i * 3 + j].Id" class="btn btn-primary"><span class="glyphicon glyphicon-pencil" /></a>
+                            <div class="card-body" style="padding-top: 10px;">
+                                <a asp-action="Edit" style=" margin-right: 10px;" asp-route-id="@typ[i * 3 + j].Id" class="btn btn-primary"><span class="glyphicon glyphicon-pencil" /></a>
                                 <a asp-action="Delete" asp-route-id="@typ[i * 3 + j].Id" class="btn btn-danger"><span class="glyphicon glyphicon-trash" /></a>
                             </div>
                         }
