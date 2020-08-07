@@ -12,17 +12,18 @@
 .type_contaniner {
     padding-bottom: 1em;
     margin: 3em;
-    background-color: dodgerblue;
-    opacity: 0.8;
+    background-color: rgba(30, 144, 255,0.65);
+
     border-radius: 35px;
     box-shadow: 2px 2px 15px #000000;
     cursor: pointer;
+    transition: .2s;
 }
+
     .type_contaniner:hover {
         transition: .2s;
         transform: scale(1.05);
     }
-}
 
 .search-card {
     margin-left: 15px;
@@ -61,11 +62,11 @@
     overflow-y: hidden;
 }
 
-.room-card.banner:hover {
-    transform: none;
-    transition: 0s;
-    cursor: default;
-}
+    .room-card.banner:hover {
+        transform: none;
+        transition: 0s;
+        cursor: default;
+    }
 
 .room-card > .info {
     text-align: center;
@@ -119,10 +120,11 @@
     border-radius: 50px;
     box-shadow: 2px 2px 15px #000000;
 }
-.reservationtag:hover {
-    transform: scale(1.05);
-    transition: .2s;
-}
+
+    .reservationtag:hover {
+        transform: scale(1.05);
+        transition: .2s;
+    }
 
 .detailstag {
     z-index: 2;
