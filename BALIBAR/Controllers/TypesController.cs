@@ -42,6 +42,7 @@ namespace BALIBAR.Controllers
             }
 
             HttpContext.Session.SetString("barTypeName", type.Name);
+            HttpContext.Session.SetString("navigatedFrom", "Type");
 
             return View(@type);
         }
