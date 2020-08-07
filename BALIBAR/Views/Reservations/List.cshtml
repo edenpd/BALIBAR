@@ -1,0 +1,49 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@{int i = 0;
+    int j = 0;
+    Reservation selectedRes = new Reservation();
+    Reservation[] res = Model.ToArray(); }
+
+<div id="reservationList">
+    @for (i = 0; i * 3 + j < res.Length; i++)
+    {
+        <div class="row">
+            <div class="card-deck">
+                @for (; i * 3 + j < res.Length && j < 3; j++)
+                {
+                    <div class="col-sm-4">
+                        <div class="card reservation_card" style="width: 18rem;">
+                            <img class="card-img-top" src=@res[i * 3 + j].Bar.ImgUrl alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">@res[i * 3 + j].Bar.Name</h5>
+                            </div>
+                            <div class="card-body">
+                                <a asp-action="Details" asp-route-id="@res[i * 3 + j].Id" class="btn btn-info card-b"><span class="glyphicon glyphicon-pencil"></span> Details</a>
+                                <a asp-action="Edit" asp-route-id="@res[i * 3 + j].Id" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+                                <a asp-action="Delete" asp-route-id="@res[i * 3 + j].Id" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Delete</a>
+                            </div>
+                            <ul class="list-group list-group-flush" height="100%">
+                                <li class="list-group-item res_card_litem">@res[i * 3 + j].DateTime.ToString()</li>
+                                <li class="list-group-item res_card_litem">@res[i * 3 + j].AttendeesNum Attendees</li>
+                                <li class="list-group-item res_card_litem">@res[i * 3 + j].Bar.Address</li>
+                            </ul>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        j = 0;
+    }
+
+    @if (res.Length == 0)
+    {
+        <center>
+            <h1>No reservations were found</h1>
+        </center>
+    }
+</div>

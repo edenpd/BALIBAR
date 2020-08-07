@@ -68,6 +68,45 @@ namespace BALIBAR.Controllers
             return View(list);
         }
 
+        public async Task<IActionResult> Search(string barName, DateTime fromDate, DateTime toDate)
+        {
+            IQueryable<Reservation> reservations = _context.Reservation.Include(r => r.Bar);
+
+            // Build the where clause according to the filter parameters:
+            // Check is the barname filter was filled
+            if (!String.IsNullOrEmpty(barName))
+            {
+                reservations = reservations.Where(r => r.Bar.Name.Contains(barName));
+            }
+
+            // Check if the fromDate filter was filled
+            if (fromDate != DateTime.MinValue)
+            {
+                reservations = reservations.Where(r => r.DateTime.Date >= fromDate.Date);
+            }
+
+            // Check if the toDate filter was filled
+            if (toDate != DateTime.MinValue)
+            {
+                reservations = reservations.Where(r => r.DateTime.Date <= toDate);
+            }
+
+            // Check if the user isn't an admin.
+            if (!User.IsInRole("Admin"))
+            {
+
+                // Get the connected user.
+                ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
+
+                // Get only reservations that belong to the connected user.
+                reservations = reservations.Where(r => r.CustomerId == user.Id);
+            }
+
+            List<Reservation> list = reservations.ToList();
+
+            return PartialView("List", list);
+        }
+
         // GET: Reservations/Details/5
         [Authorize]
         public async Task<IActionResult> Details(int? id)
@@ -77,7 +116,7 @@ namespace BALIBAR.Controllers
                 return NotFound();
             }
 
-            var reservation = await _context.Reservation
+            var reservation = await _context.Reservation.Include(r => r.Customer).Include(r => r.Bar)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (reservation == null)
             {
@@ -142,7 +181,8 @@ namespace BALIBAR.Controllers
                 return NotFound();
             }
 
-            var reservation = await _context.Reservation.FindAsync(id);
+            //var reservation = await _context.Reservation.Include(r => r.Customer).FindAsync(id);
+            var reservation = await _context.Reservation.Include(r => r.Customer).FirstOrDefaultAsync(m => m.Id == id);
             if (reservation == null)
             {
                 return NotFound();
