@@ -139,7 +139,7 @@ namespace BALIBAR.Controllers
                     var type = _context.Type.Where(t => t.Name == typeName);
                     if (type.Count() != 0)
                     {
-                        var tempBar = _context.Bar.First(b => b.Id == bar.Id);
+                        var tempBar = _context.Bar.Include(b => b.Type).First(b => b.Id == bar.Id);
 
                         if (!String.IsNullOrEmpty(bar.ImgUrl))
                         {
@@ -156,7 +156,9 @@ namespace BALIBAR.Controllers
                             }
                         }
                         bar.Type = type.ToList()[0];
+
                         _context.Entry(tempBar).CurrentValues.SetValues(bar);
+                        tempBar.Type = bar.Type;
                         await _context.SaveChangesAsync();
                     }
                     else return new NotFoundViewResult("NotFoundError", "Bar type wasn't found");
@@ -229,13 +231,10 @@ namespace BALIBAR.Controllers
 
         public IActionResult GetTypesList()
         {
-            var types = from bar in _context.Bar
-                        join type in _context.Type on bar.Type.Id equals type.Id
-                        
-                        select new { type.Name }
-                        ;
+            var types = (from type in _context.Type
+                        select new { type.Name }).Distinct();
 
-            return Json(types.Distinct().ToList());
+            return Json(types.ToList());
             //return Json(_context.Type.Select(t => t.Name).ToList());
         }
 

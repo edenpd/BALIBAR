@@ -14,7 +14,7 @@
                     Book a place <span class="glyphicon glyphicon-glass"></span>
                 </div>
             </div>
-            <div class="col-sm-12">
+            <div class="col-sm-12" style="cursor: auto;">
                 @if (@Model.ImgUrl != "")
                 {
                     <img src=@Model.ImgUrl style="  max-width: 220px;
@@ -25,7 +25,7 @@
                 }
                 <h3>@Model.Description</h3>
                 <div class="row rooms-container">
-                    <div class="col-md-12 typetag" onclick="location.href='@Url.Action("Details","Types", new { id = @Model.Type.Id })'">
+                    <div class="col-md-12 typetag" onclick="location.href='@Url.Action("Details","Types", new { id = @Model.Type.Id })'" style="cursor:pointer">
                         @Model.Type.Name
                     </div>
                 </div>
@@ -74,7 +74,7 @@
             </div>
         </div>
     </div>
-    <div style="padding-top:2rem;">
+    <div style="padding-top:2rem; cursor: auto;">
         <a asp-action="Index" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Back</a>
 
         @if (User.Identity.IsAuthenticated)
