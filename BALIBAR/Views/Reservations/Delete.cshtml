@@ -48,13 +48,21 @@
                     <thead>
                         <tr>
                             <th scope="col">@Html.DisplayNameFor(model => model.DateTime)</th>
-                            <th scope="col">@Html.DisplayNameFor(model => model.AttendeesNum)</th>
+                            <th scope="col">@Html.DisplayFor(model => model.DateTime)</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>@Html.DisplayFor(model => model.DateTime)</td>
                             <td>@Html.DisplayNameFor(model => model.AttendeesNum)</td>
+                            <td>@Html.DisplayFor(model => model.AttendeesNum)</td>
+                        </tr>
+                        <tr>
+                            <td>@Html.DisplayNameFor(model => model.Bar)</td>
+                            <td>@Html.DisplayFor(model => model.Bar.Name)</td>
+                        </tr>
+                        <tr>
+                            <td>@Html.DisplayNameFor(model => model.Customer)</td>
+                            <td>@Html.DisplayFor(model => model.Customer.UserName)</td>
                         </tr>
                     </tbody>
                 </table>

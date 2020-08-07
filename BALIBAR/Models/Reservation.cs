@@ -18,7 +18,7 @@ namespace BALIBAR.Models
         [Display(Name = "Date & Time")]
         public DateTime DateTime { get; set; }
 
-        [Display(Name = "Music Bar")]
+        [Display(Name = "Bar")]
         public Bar Bar { get; set; }
 
         public int BarID { get; set; }

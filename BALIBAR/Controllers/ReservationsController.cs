@@ -245,7 +245,7 @@ namespace BALIBAR.Controllers
                 return NotFound();
             }
 
-            var reservation = await _context.Reservation
+            var reservation = await _context.Reservation.Include(r => r.Bar).Include(r => r.Customer)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (reservation == null)
             {

@@ -6,9 +6,9 @@
 
 <h1>Your Reservations</h1>
 
-<p>
-    <a asp-action="Create">Create A Reservation</a>
-</p>
+<div onclick="location.href='@Url.Action("Create")'" class="room-card new">
+    <h1>Make A Reservation</h1>
+</div>
 
 @{int i = 0;
     int j = 0;
