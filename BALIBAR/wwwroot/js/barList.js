@@ -5,14 +5,6 @@
         $.ajax({
             type: 'GET',
             url: "/Bars/Search",
-            success: function (data) {
-                $("#barList").html(data);
-            }
-        })
-
-        $.ajax({
-            type: 'GET',
-            url: "/Bars/Search",
             data: $("#searchForm").serialize(),
             success: function (data) {
                 $("#barList").html(data);
@@ -23,6 +15,28 @@
 
     // Bar list
     $("#searchButton").click(function () {
+        $.ajax({
+            type: 'GET',
+            url: "/Bars/Search",
+            data: $("#searchForm").serialize(),
+            success: function (data) {
+                $("#barList").html(data);
+            }
+        })
+    })
+
+    $("#nameForm").keyup(function () {
+        $.ajax({
+            type: 'GET',
+            url: "/Bars/Search",
+            data: $("#searchForm").serialize(),
+            success: function (data) {
+                $("#barList").html(data);
+            }
+        })
+    })
+
+    $("#searchForm").change(function () {
         $.ajax({
             type: 'GET',
             url: "/Bars/Search",

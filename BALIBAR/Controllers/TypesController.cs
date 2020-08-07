@@ -180,5 +180,23 @@ namespace BALIBAR.Controllers
             HttpContext.Session.SetString("navigatedFrom", "Type");
             return Json(Url.Action("Index", "Bars"));
         }
+
+        public IActionResult Search(string barTypeName, string musicTypeName)
+        {
+            ViewBag.typeName = "";
+            var types = from Type in _context.Type
+                       select Type;
+            types = types.OrderBy(b => b.Name);
+
+            if (!String.IsNullOrEmpty(barTypeName))
+                types = types.Where(b => b.Name.ToUpper().Contains(barTypeName.ToUpper()));
+
+            if (!String.IsNullOrEmpty(musicTypeName))
+                types = types.Where(b => b.MusicType.ToUpper().Contains(musicTypeName.ToUpper()));
+
+            if (types.Count() > 0)
+                return PartialView("List", types.ToList());
+            else return PartialView("List", new List<BALIBAR.Models.Type>());
+        }
     }
 }

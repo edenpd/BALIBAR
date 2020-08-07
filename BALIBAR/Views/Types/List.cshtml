@@ -1,0 +1,78 @@
+﻿@model IEnumerable<BALIBAR.Models.Type>
+
+@{int i = 0;
+    int j = 0;
+    BALIBAR.Models.Type selectedType = new BALIBAR.Models.Type();
+    BALIBAR.Models.Type[] typ = Model.ToArray(); }
+
+<div id="typesList">
+
+
+    @for (i = 0; i * 3 + j < typ.Length; i++)
+    {
+        <div class="row row-centered">
+
+            @for (; i * 3 + j < typ.Length && j < 3; j++)
+            {
+                <div class="col-sm-3 type_contaniner" data-value="@typ[i * 3 + j].Id" onclick="location.href='@Url.Action("Details", new { id=@typ[i * 3 + j].Id })'">
+                    <div class="card-deck">
+                        <div class="card  types_card">
+                            <div class="card-header">
+                                <h5 class="card-header-text">Name</h5>
+                                <hr class="sperator">
+                            </div>
+                            <div class="card-body  text-center">
+                                <h3 class="card-title">@typ[i * 3 + j].Name</h3>
+                            </div>
+                        </div>
+                        <div class="card  types_card">
+                            <div class="card-header">
+                                <h5 class="card-header-text">Description</h5>
+                                <hr class="sperator">
+
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">@typ[i * 3 + j].Description</h3>
+                            </div>
+                        </div>
+
+                        <div class="card  types_card">
+                            <div class="card-header">
+                                <h5 class="card-header-text">Music Genre</h5>
+                                <hr class="sperator">
+
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">@typ[i * 3 + j].MusicType</h3>
+                            </div>
+                        </div>
+
+
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <div class="card-body" style="padding-top: 10px;">
+                                    <a asp-action="Edit" style=" margin-right: 10px;" asp-route-id="@typ[i * 3 + j].Id" class="btn btn-primary"><span class="glyphicon glyphicon-pencil" /></a>
+                                    <a asp-action="Delete" asp-route-id="@typ[i * 3 + j].Id" class="btn btn-danger"><span class="glyphicon glyphicon-trash" /></a>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+        j = 0;
+    }
+
+
+    @if (@Model.Count() == 0)
+    {
+        <div>
+            <center>
+                <h1>No types were found</h1>
+            </center>
+        </div>
+    }
+</div>
