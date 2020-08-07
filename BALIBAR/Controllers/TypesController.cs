@@ -41,8 +41,8 @@ namespace BALIBAR.Controllers
                 return NotFound();
             }
 
+            HttpContext.Session.SetString("barTypeId", type.Id.ToString());
             HttpContext.Session.SetString("barTypeName", type.Name);
-            HttpContext.Session.SetString("navigatedFrom", "Type");
 
             return View(@type);
         }
@@ -152,6 +152,33 @@ namespace BALIBAR.Controllers
         private bool TypeExists(int id)
         {
             return _context.Type.Any(e => e.Id == id);
+        }
+
+        public IActionResult GetTypeDetails()
+        {
+            int typeId = Int32.Parse(HttpContext.Session.GetString("barTypeId"));
+
+            int numOfBars = (   from bar in _context.Bar
+                                where bar.Type.Id == typeId
+                                select bar.Type.Id).Distinct().Count();
+
+            int numOfReservations = (   from type in _context.Type
+                                        join bar in _context.Bar
+                                        on type.Id equals bar.Type.Id
+                                        join reservation in _context.Reservation
+                                        on bar.Id equals reservation.Bar.Id
+                                        where type.Id == typeId
+                                        select type.Id).Count();
+
+            return Json(new { numofbars = numOfBars, numofreservations = numOfReservations });
+        }
+
+        [HttpPost]
+        public ActionResult NavToBars()
+        {
+            HttpContext.Session.SetString("barTypeName", HttpContext.Session.GetString("barTypeName"));
+            HttpContext.Session.SetString("navigatedFrom", "Type");
+            return Json(Url.Action("Index", "Bars"));
         }
     }
 }
