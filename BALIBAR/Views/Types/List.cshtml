@@ -10,44 +10,28 @@
 
     @for (i = 0; i * 3 + j < typ.Length; i++)
     {
-        <div class="row row-centered">
+        <div class="row row-centered" style="display:flex;">
 
             @for (; i * 3 + j < typ.Length && j < 3; j++)
             {
                 <div class="col-sm-3 type_contaniner" data-value="@typ[i * 3 + j].Id" onclick="location.href='@Url.Action("Details", new { id=@typ[i * 3 + j].Id })'">
                     <div class="card-deck">
-                        <div class="card  types_card">
-                            <div class="card-header">
-                                <h5 class="card-header-text">Name</h5>
-                                <hr class="sperator">
-                            </div>
+                        <div class="card  types_card" style="margin-top:1rem;">
                             <div class="card-body  text-center">
-                                <h3 class="card-title">@typ[i * 3 + j].Name</h3>
-                            </div>
-                        </div>
-                        <div class="card  types_card">
-                            <div class="card-header">
-                                <h5 class="card-header-text">Description</h5>
-                                <hr class="sperator">
-
-                            </div>
-                            <div class="card-body">
-                                <h3 class="card-title">@typ[i * 3 + j].Description</h3>
+                                <h3 class="card-title" style="font-weight: bold;padding: 1rem;">@typ[i * 3 + j].Name</h3>
                             </div>
                         </div>
 
                         <div class="card  types_card">
                             <div class="card-header">
-                                <h5 class="card-header-text">Music Genre</h5>
+                                <h5 class="card-header-text" style="padding: 1rem;">Music Genre</h5>
                                 <hr class="sperator">
 
                             </div>
                             <div class="card-body">
-                                <h3 class="card-title">@typ[i * 3 + j].MusicType</h3>
+                                <h3 class="card-title" style="padding: 1rem;">@typ[i * 3 + j].MusicType</h3>
                             </div>
                         </div>
-
-
 
                         @if (User.Identity.IsAuthenticated)
                         {

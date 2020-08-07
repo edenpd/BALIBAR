@@ -13,18 +13,6 @@
 
     });
 
-    // Bar list
-    $("#searchButton").click(function () {
-        $.ajax({
-            type: 'GET',
-            url: "/Bars/Search",
-            data: $("#searchForm").serialize(),
-            success: function (data) {
-                $("#barList").html(data);
-            }
-        })
-    })
-
     $("#nameForm").keyup(function () {
         $.ajax({
             type: 'GET',
