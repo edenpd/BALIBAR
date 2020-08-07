@@ -84,6 +84,9 @@ namespace BALIBAR.Controllers
             var type = _context.Type.Where(t => t.Name == typeName);
             if (type.Count() != 0)
             {
+                bar.Type = type.ToList()[0];
+                ModelState.Remove("Type.MusicType");
+                ModelState.Remove("Type.Description");
                 if (ModelState.IsValid)
                 {
                     if (!String.IsNullOrEmpty(bar.ImgUrl) && System.IO.File.Exists(bar.ImgUrl))
@@ -94,7 +97,6 @@ namespace BALIBAR.Controllers
                     }
                     else bar.ImgUrl = "";
 
-                    bar.Type = type.ToList()[0];
                     _context.Add(bar);
                     await _context.SaveChangesAsync();
                     FaceBookHandler.PostMessage(bar);

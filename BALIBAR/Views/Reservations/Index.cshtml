@@ -4,20 +4,17 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Your Reservations</h1>
+<center>
+    <h1>Your Reservations</h1>
 
-<div onclick="location.href='@Url.Action("Create")'" class="room-card new">
-    <h1>Make A Reservation</h1>
-</div>
+    @{int i = 0;
+        int j = 0;
+        Reservation selectedRes = new Reservation();
+        Reservation[] res = Model.ToArray(); }
 
-@{int i = 0;
-    int j = 0;
-    Reservation selectedRes = new Reservation();
-    Reservation[] res = Model.ToArray(); }
-
-<div id="reservations">
-    <div class="row">
-        <div class="search-card form-inline filter">
+    <div id="reservations">
+        <div class="row">
+            <div class="search-card form-inline filter" style="padding:1rem;">
                 <form id="searchForm">
                     <div class="form-group">
                         <label class="control-label" for="barName">Bar name : </label>
@@ -35,11 +32,18 @@
                         <button id="searchButton" type="submit" class="btn btn-primary">Search</button>
                     </div>
                 </form>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom:1rem;">
+            <div onclick="location.href='@Url.Action("Create")'" class="room-card new">
+                <h1>Make A Reservation</h1>
+            </div>
+        </div>
+
+        <div id="reservationList">
         </div>
     </div>
-    <div id="reservationList">
-    </div>
-</div>
+</center>
 
 @section Scripts {
     <script src="~/js/reservationList.js"></script>

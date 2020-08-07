@@ -3,3 +3,8 @@
         width: 950px;
     }
 }
+
+.reservation_card {
+    border-radius: 20px !important;
+    box-shadow: 2px 2px 15px #000000;
+}

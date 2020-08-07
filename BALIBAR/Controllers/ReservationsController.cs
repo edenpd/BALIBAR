@@ -217,6 +217,7 @@ namespace BALIBAR.Controllers
             {
                 try
                 {
+                    reservation.Customer = await _userManager.GetUserAsync(HttpContext.User);
                     _context.Update(reservation);
                     await _context.SaveChangesAsync();
                 }
