@@ -33,6 +33,28 @@
         })
     })
 
+    $("#nameForm").keyup(function () {
+        $.ajax({
+            type: 'GET',
+            url: "/Bars/Search",
+            data: $("#searchForm").serialize(),
+            success: function (data) {
+                $("#barList").html(data);
+            }
+        })
+    })
+
+    $("#searchForm").change(function () {
+        $.ajax({
+            type: 'GET',
+            url: "/Bars/Search",
+            data: $("#searchForm").serialize(),
+            success: function (data) {
+                $("#barList").html(data);
+            }
+        })
+    })
+
     // Bar types
     var select = document.getElementById("Type_Name")
     var url = "/Bars/GetTypesList"
