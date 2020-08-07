@@ -12,12 +12,15 @@ namespace BALIBAR.Models
         public int Id { get; set; }
 
         [Display(Name = "Type Name")]
+        [Required]
         public string Name { get; set; }
 
         [Display(Name = "Description")]
+        [Required]
         public string Description { get; set; }
 
         [Display(Name = "Music type")]
+        [Required]
         public string MusicType { get; set; }
 
     }
