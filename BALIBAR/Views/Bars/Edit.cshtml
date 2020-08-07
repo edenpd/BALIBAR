@@ -68,7 +68,7 @@
             @if (@Model.ImgUrl != "")
             {
                 <div class="text-center">
-                    <img src=@Model.ImgUrl style="max-width: 200px; max-height:200px">
+                    <img src=@Model.ImgUrl style="max-width: 220px; max-height: 220px; border-radius: 20px;">
                 </div>
             }
         </div>
@@ -110,7 +110,7 @@
 
                 for (var i = 0; i < genres.length; i++) {
                     var option = document.createElement("option");
-                    option.text = genres[i];
+                    option.text = genres[i].name;
                     select.add(option);
                 }
             }

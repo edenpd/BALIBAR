@@ -36,8 +36,13 @@ namespace BALIBAR.Controllers
 
         public async Task<IActionResult> Index()
         {
-            ViewBag.typeName = HttpContext.Session.GetString("barTypeName");
-            //ViewBag.typeName = id;
+            if (String.Compare(HttpContext.Session.GetString("navigatedFrom"), "Type") == 0)
+            {
+                HttpContext.Session.SetString("navigatedFrom", "");
+                ViewBag.typeName = HttpContext.Session.GetString("barTypeName");
+            }
+            else HttpContext.Session.SetString("barTypeName", "");
+
             return View();
         }
 
@@ -191,7 +196,7 @@ namespace BALIBAR.Controllers
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception e) {
-                return new UnableToDeleteViewResult("UnableToDeleteError", "Unable to delete specified room. There are reservations associated with that room!");
+                return new UnableToDeleteViewResult("UnableToDeleteError", "Unable to delete specified bar");
             }
             
         }
