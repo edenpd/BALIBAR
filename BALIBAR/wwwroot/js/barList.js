@@ -5,14 +5,6 @@
         $.ajax({
             type: 'GET',
             url: "/Bars/Search",
-            success: function (data) {
-                $("#barList").html(data);
-            }
-        })
-
-        $.ajax({
-            type: 'GET',
-            url: "/Bars/Search",
             data: $("#searchForm").serialize(),
             success: function (data) {
                 $("#barList").html(data);
