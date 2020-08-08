@@ -8,10 +8,6 @@
     <link href="~/css/reservations.css" rel="stylesheet" type="text/css" />
 }*@
 
-<h1>Create</h1>
-
-<h4>Reservation</h4>
-<hr />
 <div class="container create_reservation">
     <row>
         <div class="col-sm-12 reservation_header">
@@ -64,8 +60,8 @@
                     <label for="input_date">Date & Time</label>
                     <input asp-for="DateTime" class="form-control" id="input_date" />
                 </div>
-                <button type="submit" value="Create" class="btn btn-primary">Book</button>
-                <a asp-action="Index">Back to List</a>
+                <a asp-action="Index" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Back</a>
+                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk"></span> Book</button>
             </form>
         </div>
     </div>

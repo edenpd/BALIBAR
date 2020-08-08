@@ -95,7 +95,7 @@ namespace BALIBAR.Controllers
                         System.IO.File.Copy(bar.ImgUrl, copyImagePath, true);
                         bar.ImgUrl = "/content/" + Regex.Replace(bar.Name, @"\s+", "") + ".jpg";
                     }
-                    else bar.ImgUrl = "";
+                    else bar.ImgUrl = "/content/NoImage.jpg";
 
                     _context.Add(bar);
                     await _context.SaveChangesAsync();
@@ -154,7 +154,7 @@ namespace BALIBAR.Controllers
                                     System.IO.File.Copy(bar.ImgUrl, copyImagePath, true);
                                     bar.ImgUrl = "/content/" + Regex.Replace(bar.Name, @"\s+", "") + ".jpg";
                                 }
-                                else bar.ImgUrl = "";
+                                else bar.ImgUrl = "/content/NoImage.jpg";
                             }
                         }
                         bar.Type = type.ToList()[0];

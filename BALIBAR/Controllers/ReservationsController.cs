@@ -113,14 +113,14 @@ namespace BALIBAR.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("NotFoundError", "Reservation wasn't found");
             }
 
             var reservation = await _context.Reservation.Include(r => r.Customer).Include(r => r.Bar)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (reservation == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("NotFoundError", "Reservation wasn't found");
             }
 
             // Get the connected user.
@@ -128,7 +128,7 @@ namespace BALIBAR.Controllers
 
             if (!User.IsInRole("Admin") && !user.Id.Equals(reservation.CustomerId))
             {
-                return NotFound();
+                return new NotFoundViewResult("NotFoundError", "Reservation wasn't found");
             }
 
             return View(reservation);
@@ -178,14 +178,14 @@ namespace BALIBAR.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("NotFoundError", "Reservation wasn't found");
             }
 
             //var reservation = await _context.Reservation.Include(r => r.Customer).FindAsync(id);
             var reservation = await _context.Reservation.Include(r => r.Customer).FirstOrDefaultAsync(m => m.Id == id);
             if (reservation == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("NotFoundError", "Reservation wasn't found");
             }
 
             // Get the connected user.
@@ -193,7 +193,7 @@ namespace BALIBAR.Controllers
 
             if (!User.IsInRole("Admin") && !user.Id.Equals(reservation.CustomerId))
             {
-                return NotFound();
+                return new NotFoundViewResult("NotFoundError", "Reservation wasn't found");
             }
 
                 PopulateBarsDropDownList();
@@ -210,7 +210,7 @@ namespace BALIBAR.Controllers
         {
             if (id != reservation.Id)
             {
-                return NotFound();
+                return new NotFoundViewResult("NotFoundError", "Reservation wasn't found");
             }
 
             if (ModelState.IsValid)
@@ -225,7 +225,7 @@ namespace BALIBAR.Controllers
                 {
                     if (!ReservationExists(reservation.Id))
                     {
-                        return NotFound();
+                        return new NotFoundViewResult("NotFoundError", "Reservation wasn't found");
                     }
                     else
                     {
@@ -243,14 +243,14 @@ namespace BALIBAR.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("NotFoundError", "Reservation wasn't found");
             }
 
             var reservation = await _context.Reservation.Include(r => r.Bar).Include(r => r.Customer)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (reservation == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("NotFoundError", "Reservation wasn't found");
             }
 
             // Get the connected user.
@@ -258,7 +258,7 @@ namespace BALIBAR.Controllers
 
             if (!User.IsInRole("Admin") && !user.Id.Equals(reservation.CustomerId))
             {
-                return NotFound();
+                return new NotFoundViewResult("NotFoundError", "Reservation wasn't found");
             }
 
             return View(reservation);

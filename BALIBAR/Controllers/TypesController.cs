@@ -31,14 +31,14 @@ namespace BALIBAR.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("NotFoundError", "Type wasn't found");
             }
 
             var @type = await _context.Type
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (@type == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("NotFoundError", "Type wasn't found");
             }
 
             HttpContext.Session.SetString("barTypeId", type.Id.ToString());
@@ -74,13 +74,13 @@ namespace BALIBAR.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("NotFoundError", "Type wasn't found");
             }
 
             var @type = await _context.Type.FindAsync(id);
             if (@type == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("NotFoundError", "Type wasn't found");
             }
             return View(@type);
         }
@@ -94,7 +94,7 @@ namespace BALIBAR.Controllers
         {
             if (id != @type.Id)
             {
-                return NotFound();
+                return new NotFoundViewResult("NotFoundError", "Type wasn't found");
             }
 
             if (ModelState.IsValid)
@@ -108,7 +108,7 @@ namespace BALIBAR.Controllers
                 {
                     if (!TypeExists(@type.Id))
                     {
-                        return NotFound();
+                        return new NotFoundViewResult("NotFoundError", "Type wasn't found");
                     }
                     else
                     {
@@ -125,14 +125,14 @@ namespace BALIBAR.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("NotFoundError", "Type wasn't found");
             }
 
             var @type = await _context.Type
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (@type == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("NotFoundError", "Type wasn't found");
             }
 
             return View(@type);
