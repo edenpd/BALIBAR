@@ -1,0 +1,113 @@
+﻿@model BALIBAR.Models.Bar
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create new bar</h1>
+
+<hr />
+<div class="row">
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="col-md-4">
+
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Type.Name" class="control-label"></label>
+                <select id="Type_Name" name="Type.Name" class="form-control"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <a asp-action="Index" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Back</a>
+                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
+            </div>
+
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="MaxParticipants" class="control-label"></label>
+                <input asp-for="MaxParticipants" class="form-control" />
+                <span asp-validation-for="MaxParticipants" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InOut" class="control-label"></label>
+                <select asp-for="InOut"
+                        class="form-control"
+                        asp-items="Html.GetEnumSelectList<InOutEnum>()">
+                </select>
+                <span asp-validation-for="InOut" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Kosher" /> @Html.DisplayNameFor(model => model.Kosher)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Accessible" /> @Html.DisplayNameFor(model => model.Accessible)
+                </label>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="OpeningTime" class="control-label"></label>
+                <input asp-for="OpeningTime" class="form-control" />
+                <span asp-validation-for="OpeningTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ClosingTime" class="control-label"></label>
+                <input asp-for="ClosingTime" class="form-control" />
+                <span asp-validation-for="ClosingTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MinAge" class="control-label"></label>
+                <input asp-for="MinAge" class="form-control" />
+                <span asp-validation-for="MinAge" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+
+                <label asp-for="ImgUrl" class="control-label"></label>
+                <input asp-for="ImgUrl" class="form-control" />
+                <span asp-validation-for="ImgUrl" class="text-danger"></span>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        var url = "/Bars/GetTypesList"
+        var select = document.getElementById("Type_Name")
+        $.ajax({
+            type: 'GET',
+            url: url,
+            contentType: 'json',
+            success: function (genres) {
+
+                for (var i = 0; i < genres.length; i++) {
+                    var option = document.createElement("option");
+                    option.text = genres[i].name;
+                    select.add(option);
+                }
+            }
+        })
+    </script>
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

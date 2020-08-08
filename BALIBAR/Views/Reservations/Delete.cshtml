@@ -1,0 +1,73 @@
+﻿@model BALIBAR.Models.Reservation
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<div class="container create_reservation">
+    <row>
+        <div class="col-sm-12 reservation_header">
+            <img src="~/img/create_header.jpg" />
+        </div>
+    </row>
+    <div class="row">
+        <div class="col-sm-6">
+            <h2>The Perfect Bar Experience</h2>
+            <p>
+                Pick one of our exclusive bars. We do not simply offer tables and drinks. We provide experiences.
+            </p>
+            <blockquote>
+                "I made a reservation for a pub I've never heard of in my city. I did not expect to have the night of my dreams. I met my girlfriend right there on the dance bar, and got to mmet a ton of new friends. Truly, a night to remember."
+                <small>Tomer Erusalimsky</small>
+            </blockquote>
+            <blockquote>
+                "It's been three days since I've been to the pub, and I'm still drunk!"
+                <small>Ron Avraham</small>
+            </blockquote>
+            <blockquote>
+                "Never mix whiskey and Tooby...I can't stop throwing up. WORTH IT!"
+                <small>Eden Podoksik</small>
+            </blockquote>
+        </div>
+        <div class="col-sm-6">
+            <h3>Cancel your reservation</h3>
+            <p>
+                We get it. Sometimes your date can't show up because she's gotta go to work early in the morning.
+                Maybe your friends simply aren't in the mood, or you just prefer to stay at home and watch Netflix.
+                Canceling a reservation is as easy as pressing the button below.
+            </p>
+            <div>
+                <center style="padding:1rem;">
+                    <label class="col-sm-12 col-form-label">@Html.DisplayNameFor(model => model.DateTime)</label>
+                    <div class="col-sm-12" style="margin-bottom:1rem;">
+                        <p type="text">@Html.DisplayFor(model => model.DateTime)</p>
+                    </div>
+                    <label class="col-sm-12 col-form-label">@Html.DisplayNameFor(model => model.AttendeesNum)</label>
+                    <div class="col-sm-12" style="margin-bottom:1rem;">
+                        <p type="text">@Html.DisplayFor(model => model.AttendeesNum)</p>
+                    </div>
+                    <label class="col-sm-12 col-form-label">@Html.DisplayNameFor(model => model.Bar)</label>
+                    <div class="col-sm-12" style="margin-bottom:1rem;">
+                        <p type="text">@Html.DisplayFor(model => model.Bar.Name)</p>
+                    </div>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <label class="col-sm-12 col-form-label">@Html.DisplayNameFor(model => model.Customer)</label>
+                            <div class="col-sm-12" style="margin-bottom:1rem;">
+                                <p type="text">@Html.DisplayFor(model => model.Customer.UserName)</p>
+                            </div>
+                        }
+                    }
+                </center>
+
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="Id" />
+                    <a asp-action="Index" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Back</a>
+                    <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Cancel reservation</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

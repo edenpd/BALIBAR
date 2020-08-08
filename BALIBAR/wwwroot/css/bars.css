@@ -1,0 +1,284 @@
+﻿#myMap {
+    margin: 1em;
+}
+
+.rooms-container {
+    display: flex;
+    justify-content: center;
+    align-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.room-card:hover {
+    transform: scale(1.05);
+    transition: .2s;
+}
+
+.bar-display {
+    margin: 1rem;
+    padding-bottom: 1rem;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.stat-card {
+    background: #292929;
+    margin: 1rem;
+    padding-bottom: 1rem;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 2px 2px 20px #000000;
+    border-radius: 20px;
+}
+
+.room-card {
+    transition: .2s;
+    background: #0595BE;
+    margin: 1rem;
+    padding-bottom: 1rem;
+    width: 100%;
+    min-height: 100px;
+    max-height: 400px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 2px 2px 15px #000000;
+    cursor: pointer;
+}
+
+.search-card {
+    margin-left: 15px;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    background: black;
+    display: flex;
+    width: 100%;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.16), 0 5px 10px rgba(0,0,0,0.23);
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.weather-card {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.room-card.new {
+    background: #1EDC3F;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100px;
+    color: white;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.16), 0 5px 10px rgba(0,0,0,0.23);
+}
+
+.room-card.banner {
+    width: 100%;
+    height: 180px;
+    overflow-y: hidden;
+}
+
+    .room-card.banner:hover {
+        transform: none;
+        transition: 0s;
+        cursor: default;
+    }
+
+.room-card > .info {
+    text-align: center;
+    margin: 1rem 0;
+    padding-top: 1rem;
+}
+
+.room-card > img {
+    width: 100%;
+}
+
+.room-card > .info > .location {
+}
+
+    .room-card > .info > .location > img {
+        width: 12px;
+        height: 12px;
+        margin-right: -12px;
+    }
+
+.room-card > .info > h1, .room-card > .info > h3 {
+    margin: 0;
+}
+
+
+.tag {
+    z-index: 2;
+    position: absolute;
+    background: #5918DE;
+    color: white;
+    margin: 1rem;
+    font-size: 20px;
+    min-width: 100px;
+    padding: .5rem 2rem;
+    border-radius: 999px;
+}
+
+.proptag {
+    z-index: 2;
+    background: #B353CB;
+    color: white;
+    margin: 1rem;
+    font-size: 20px;
+    width: 230px;
+    padding: .5rem 2rem;
+    border-radius: 10px;
+}
+
+.typetag {
+    transition: .2s;
+    z-index: 2;
+    background: #0595BE;
+    color: white;
+    margin: 1rem;
+    font-size: 20px;
+    width: 220px;
+    padding: .5rem 2rem;
+    border-radius: 50px;
+    box-shadow: 2px 2px 15px #000000;
+}
+
+.typetag:hover {
+    transform: scale(1.05);
+    transition: .2s;
+}
+
+.reservationtag {
+    transition: .2s;
+    z-index: 2;
+    background: #6bf25c;
+    color: white;
+    margin: 1rem;
+    font-size: 20px;
+    width: 220px;
+    padding: .5rem 2rem;
+    border-radius: 50px;
+    box-shadow: 2px 2px 15px #000000;
+}
+
+    .reservationtag:hover {
+        transform: scale(1.05);
+        transition: .2s;
+    }
+
+.detailstag {
+    z-index: 2;
+    background: #6531d6;
+    color: white;
+    margin: 1rem;
+    font-size: 20px;
+    width: 157px;
+    padding: .5rem 2rem;
+    border-radius: 50px;
+}
+
+
+.recommended::after {
+    z-index: 2;
+    position: absolute;
+    background: #5918DE;
+    color: white;
+    margin-top: 1rem;
+    margin-left: 22rem;
+    font-size: 20px;
+    min-width: 100px;
+    padding: .5rem 2rem;
+    border-radius: 999px;
+    content: "Recommended !";
+    animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}
+
+#snackbar {
+    visibility: hidden; /* Hidden by default. Visible on click */
+    min-width: 250px; /* Set a default minimum width */
+    margin-left: -125px; /* Divide value of min-width by 2 */
+    background-color: #333; /* Black background color */
+    color: #fff; /* White text color */
+    text-align: center; /* Centered text */
+    border-radius: 200px; /* Rounded borders */
+    padding: 16px; /* Padding */
+    position: fixed; /* Sit on top of the screen */
+    z-index: 999; /* Add a z-index if needed */
+    left: 50%; /* Center the snackbar */
+    top: 20px; /* 30px from the bottom */
+}
+
+    /* Show the snackbar when clicking on a button (class added with JavaScript) */
+    #snackbar.show {
+        visibility: visible; /* Show the snackbar */
+        /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+  However, delay the fade out process for 2.5 seconds */
+        -webkit-animation: fadein 0.5s, fadeout 0.5s 3.5s;
+        animation: fadein 0.5s, fadeout 0.5s 3.5s;
+    }
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes fadein {
+    from {
+        top: 0;
+        opacity: 0;
+    }
+
+    to {
+        top: 20px;
+        opacity: 1;
+    }
+}
+
+@keyframes fadein {
+    from {
+        top: 0;
+        opacity: 0;
+    }
+
+    to {
+        top: 20px;
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadeout {
+    from {
+        top: 20px;
+        opacity: 1;
+    }
+
+    to {
+        top: 0;
+        opacity: 0;
+    }
+}
+
+@keyframes fadeout {
+    from {
+        top: 20px;
+        opacity: 1;
+    }
+
+    to {
+        top: 0;
+        opacity: 0;
+    }
+}

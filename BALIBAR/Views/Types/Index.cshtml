@@ -1,0 +1,45 @@
+﻿@model IEnumerable<BALIBAR.Models.Type>
+
+@{
+    ViewData["Title"] = "Bar types";
+}
+
+<center>
+    <h1>Bar types</h1>
+</center>
+<div class="row">
+    <div class="search-card">
+        <form id="searchForm" class="form-inline filter">
+            <div class="form-group">
+                <label class="control-label" for="barName">Bar Type name : </label>
+                <input class="form-control" id="nameForm" type="text" name="barTypeName">
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="minAge">Music type : </label>
+                <input class="form-control"  id="musicForm" type="text" name="musicTypeName">
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    @if (User.Identity.IsAuthenticated)
+    {
+        @if (User.IsInRole("Admin"))
+        {
+            <div onclick="location.href='@Url.Action("Create")'" class="room-card new">
+                <h1>Add new bar type</h1>
+            </div>
+        }
+    }
+</div>
+
+<div id="typesList">
+</div>
+
+@section Scripts {
+
+    <script src="~/js/typesList.js"></script>
+
+}
+

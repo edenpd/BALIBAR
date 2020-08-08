@@ -1,0 +1,23 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using BALIBAR.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@if (SignInManager.IsSignedIn(User))
+{
+    <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
+        <ul class="nav navbar-nav navbar-right">
+            <li><a id="userHello" class="disabled">Hello @UserManager.GetUserName(User)!</a></li>
+            <li><a href="#" id="LogOut">Log out</a></li>
+        </ul>
+    </form>
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li><a asp-controller="Account" asp-action="Register">Register</a></li>
+        <li><a asp-controller="Account" asp-action="Login">Log in</a></li>
+    </ul>
+}
+
+<script src="~/js/login.js" asp-append-version="true"></script>
+

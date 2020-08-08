@@ -1,0 +1,27 @@
+﻿@media (min-width: 1200px) {
+    .container {
+        width: 1200px;;
+    }
+}
+
+.reservation_card {
+    margin: 1rem;
+    background-color: white;
+    margin-left: 3rem;
+    padding-top: 1rem;
+    border-radius: 35px;
+    box-shadow: 2px 2px 15px #000000;
+    cursor: pointer;
+    transition: .2s;
+    width: 28%;
+}
+
+    .reservation_card:hover {
+        transition: .2s;
+        transform: scale(1.05);
+    }
+
+.res_card_litem {
+    border-radius: 20px !important;
+    margin: 1rem;
+}

@@ -1,0 +1,78 @@
+﻿@model BALIBAR.Models.Reservation
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+<div class="container create_reservation">
+    <row>
+        <div class="col-sm-12 reservation_header">
+            <img src="~/img/create_header.jpg" />
+        </div>
+    </row>
+    <div class="row">
+        <div class="col-sm-6">
+            <h2>The Perfect Bar Experience</h2>
+            <p>
+                Pick one of our exclusive bars. We do not simply offer tables and drinks. We provide experiences.
+            </p>
+            <blockquote>
+                "I made a reservation for a pub I've never heard of in my city. I did not expect to have the night of my dreams. I met my girlfriend right there on the dance bar, and got to mmet a ton of new friends. Truly, a night to remember."
+                <small>Tomer Erusalimsky</small>
+            </blockquote>
+            <blockquote>
+                "It's been three days since I've been to the pub, and I'm still drunk!"
+                <small>Ron Avraham</small>
+            </blockquote>
+            <blockquote>
+                "Never mix whiskey and Tooby...I can't stop throwing up. WORTH IT!"
+                <small>Eden Podoksik</small>
+            </blockquote>
+        </div>
+        <div class="col-sm-6">
+            <h3>Reservation Details</h3>
+            <p>
+                Just in case you want to make sure every small detail about your night is perfect.
+                Here you can your reservation.
+            </p>
+            <form style="padding:1rem;">
+                <div class="form-group row">
+                    <label for="staticDate" class="col-sm-4 col-form-label">@Html.DisplayNameFor(model => model.DateTime)</label>
+                    <div class="col-sm-8">
+                        <input type="text" readonly class="form-control-plaintext res_det" id="staticDate" value="@Html.DisplayFor(model => model.DateTime)">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="staticBar" class="col-sm-4 col-form-label">@Html.DisplayNameFor(model => model.Bar)</label>
+                    <div class="col-sm-8">
+                        <input type="text" readonly class="form-control-plaintext res_det" id="staticBar" value="@Html.DisplayFor(model => model.Bar.Name)">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="staticAttendees" class="col-sm-4 col-form-label">@Html.DisplayNameFor(model => model.AttendeesNum)</label>
+                    <div class="col-sm-8">
+                        <input type="text" readonly class="form-control-plaintext res_det" id="staticAttendees" value="@Html.DisplayFor(model => model.AttendeesNum)">
+                    </div>
+                </div>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <div class="form-group row">
+                            <label for="staticCustomer" class="col-sm-4 col-form-label">@Html.DisplayNameFor(model => model.Customer)</label>
+                            <div class="col-sm-8">
+                                <input type="text" readonly class="form-control-plaintext res_det" id="staticCustomer" value="@Html.DisplayFor(model => model.Customer.UserName)">
+                            </div>
+                        </div>
+                    }
+                }
+            </form>
+
+            <a asp-action="Index" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Back</a>
+            <a href="@string.Format("/Bars/Details/{0}", Model.BarID)" class="btn btn-info card-b"><span class="glyphicon glyphicon-glass"></span> Visit bar</a>
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+            <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Delete</a>
+        </div>
+    </div>
+</div>

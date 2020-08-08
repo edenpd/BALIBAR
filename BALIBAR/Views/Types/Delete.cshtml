@@ -1,0 +1,35 @@
+﻿@model BALIBAR.Models.Type
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Are you sure you want to delete @Model.Name from types list?</h2>
+<h3>Pay attention, if there are bars with this type, they will be deleted as well</h3>
+
+<form asp-action="Delete" style="margin-top:1rem">
+    <input type="hidden" asp-for="Id" />
+    <a asp-action="Index" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Back</a>
+    <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Yes, I'm sure</button>
+</form>
+<hr />
+
+<div class="bar-display" style="cursor: auto;">
+
+    <div class="row rooms-container">
+        <div class="col-md-12 type_detailstag">
+            <span class="glyphicon glyphicon-align-justify"></span>
+            <hr />
+            @Model.Description
+        </div>
+    </div>
+
+    <div class="row rooms-container">
+        <div class="col-md-12 type_detailstag">
+            <span class="glyphicon glyphicon-music"></span>
+            <hr />
+            @Model.MusicType
+        </div>
+    </div>
+
+</div>

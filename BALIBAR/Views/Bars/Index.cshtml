@@ -1,0 +1,83 @@
+﻿@model IEnumerable<BALIBAR.Models.Bar>
+
+@{
+    ViewData["Title"] = "Our bars";
+}
+
+<div id="snackbar">
+    Login to get recommendations for bars
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="text-center weather-card" style="margin: auto; width: 100%; padding-left: 3vh;">
+            <a class="weatherwidget-io" href="https://forecast7.com/en/31d0534d85/israel/" data-label_1="ISRAEL" data-label_2="WEATHER" data-font="Open Sans" data-icons="Climacons Animated" data-mode="Current" data-theme="weather_one"></a>
+            <p style="margin-top:20px">Pay attention to the weather and choose your bar accordingly</p>
+        </div>
+    </div>
+</div>
+
+<center>
+    <h1>Our bars</h1>
+</center>
+
+<div class="row">
+    <div class="search-card">
+        <form id="searchForm" class="form-inline filter">
+            <div class="form-group">
+                <label class="control-label" for="barName">Bar name : </label>
+                <input id="nameForm" class="form-control" type="text" name="barName">
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="typeName">Bar type : </label>
+                <select class="form-control" id="Type_Name" name="typeName">
+                    @if (ViewBag.typeName == null)
+                    {
+                        <option value="">All</option>
+                    } else {
+                    <option value="@ViewBag.typeName">@ViewBag.typeName</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="minAge">Min age : </label>
+                <input class="form-control" type="number" name="minAge" min="16" max="120">
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    @if (User.Identity.IsAuthenticated)
+    {
+        @if (User.IsInRole("Admin"))
+        {
+            <div onclick="location.href='@Url.Action("Create")'" class="room-card new">
+                <h1>Add new bar</h1>
+            </div>
+        }
+    }
+</div>
+<div id="barList">
+</div>
+
+@section Scripts {
+
+    <script src="~/js/barList.js"></script>
+
+    <script>
+        !function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (!d.getElementById(id)) {
+                js = d.createElement(s);
+                js.id = id;
+                js.src = 'https://weatherwidget.io/js/widget.min.js';
+                fjs.parentNode.insertBefore(js, fjs);
+            }
+        }(document, 'script', 'weatherwidget-io-js');
+    </script>
+
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+}

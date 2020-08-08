@@ -1,0 +1,151 @@
+﻿@model BALIBAR.Models.Bar
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="bar-display">
+    <h1>@Model.Name</h1>
+    <div>
+        <hr />
+        <div class="row text-center">
+            <div class="row rooms-container"  onclick="location.href='@Url.Action("Create","Reservations", new { barId=@Model.Id })'">
+                <div class="col-md-12 reservationtag">
+                    Book a place <span class="glyphicon glyphicon-glass"></span>
+                </div>
+            </div>
+            <div class="col-sm-12" style="cursor: auto;">
+                @if (@Model.ImgUrl != "")
+                {
+                    <img src=@Model.ImgUrl style="  max-width: 220px;
+                                                    max-height: 220px;
+                                                    border-radius: 20px;
+                                                    margin-top: 1rem;
+                                                    margin-bottom: 1rem;">
+                }
+                <h3>@Model.Description</h3>
+                <div class="row rooms-container">
+                    <div class="col-md-12 typetag" onclick="location.href='@Url.Action("Details","Types", new { id = @Model.Type.Id })'" style="cursor:pointer">
+                        @Model.Type.Name
+                    </div>
+                </div>
+                <div class="row rooms-container">
+                    <div class="col-md-4 detailstag">
+                        @if (Model.Kosher)
+                        {<div>Kosher</div> }
+                        else
+                        { <div>Not kosher</div>}
+                    </div>
+                    <div class="col-md-4 detailstag">
+                        @if (Model.Accessible)
+                        {<div>Accessible</div> }
+                        else
+                        { <div>Not accessible</div>}
+                    </div>
+
+                    <div class="col-md-4 detailstag">
+                        @if (Model.InOut == @InOutEnum.Both)
+                        {<div>In & Out</div> }
+                        else
+                        { <div>@Model.InOut</div>}
+                    </div>
+                </div>
+                <div class="row rooms-container">
+                    <div class="col-md-6 detailstag" style="width: 250px;">
+                        Up to @Model.MaxParticipants people
+                    </div>
+
+                    <div class="col-md-6 detailstag" style="width: 250px;">
+                        Age @Model.MinAge and over
+                    </div>
+                </div>
+                <div class="row rooms-container">
+                    <div class="col-md-6 detailstag" style="width: 250px;">
+                        Opening hour: @Model.OpeningTime.ToShortTimeString()
+                    </div>
+
+                    <div class="col-md-6 detailstag" style="width: 250px;">
+                        Closing hour: @Model.ClosingTime.ToShortTimeString()
+                    </div>
+                </div>
+                <center>
+                    <div id="myMap" style="width:400px;height:300px;" />
+                </center>
+            </div>
+        </div>
+    </div>
+    <div style="padding-top:2rem; cursor: auto;">
+        <a asp-action="Index" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Back</a>
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            @if (User.IsInRole("Admin"))
+            {
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Delete</a>
+            }
+        }
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    var map;
+    var searchManager;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map("#myMap");
+        addRoomToMap('@Model.Name', '@Model.Address');
+
+    }
+
+    function addRoomToMap(name, address) {
+        findLocationByAddress(address, function (location) {
+            var barLocation = location;
+            var barPoint = new Microsoft.Maps.Pushpin(barLocation);
+            var infobox = new Microsoft.Maps.Infobox(barLocation, {
+                title: name,
+                description: address,
+                visible: false
+            });
+            infobox.setMap(map);
+            infobox.setOptions({ visible: true });
+            Microsoft.Maps.Events.addHandler(barPoint, 'click', function () {
+                infobox.setOptions({ visible: true });
+            });
+            map.entities.push(barPoint);
+            map.setView({
+                center: location,
+                zoom: 15
+            });
+
+        });
+    }
+
+    function findLocationByAddress(address, foo) {
+        // If search manager is not defined, load the search module
+        if (!searchManager) {
+            // Create an instance of the search manager and re-enter function
+            Microsoft.Maps.loadModule('Microsoft.Maps.Search', function () {
+                searchManager = new Microsoft.Maps.Search.SearchManager(map);
+                findLocationByAddress(address, foo);
+            });
+        } else {
+            var searchRequest = {
+                where: address,
+                callback: function (r) {
+                    foo(r.results[0].location);
+                },
+                errorCallback: function (e) {
+                    // If there is an error
+                    console.log("No results found for this address: " + address);
+                }
+            };
+
+            // Make the geocode request
+            searchManager.geocode(searchRequest);
+        }
+    }
+</script>
+<script type="text/javascript" src="https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AmTbZrbvXwVy0XO22GneszL2g9TZqn9gsLSs8ejbQe-EIb5_QvppPlAyyD_59HII" async defer></script>
+

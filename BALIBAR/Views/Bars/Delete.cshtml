@@ -1,0 +1,138 @@
+﻿@model BALIBAR.Models.Bar
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Are you sure you want to delete @Model.Name from bars list?</h2>
+<h3>Pay attention, if there are reservations to this bar, they will be deleted as well</h3>
+
+<form asp-action="Delete" style="margin-top:1rem">
+    <input type="hidden" asp-for="Id" />
+    <a asp-action="Index" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Back</a>
+    <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Yes, I'm sure</button>
+</form>
+
+<hr />
+<div class="bar-display" style="cursor: auto">
+    <div class="row text-center">
+        <div class="col-sm-12">
+            <div class="row rooms-container">
+                <div class="col-md-12 typetag">
+                    @Model.Type.Name
+                </div>
+            </div>
+            @if (@Model.ImgUrl != "")
+            {
+                <img src=@Model.ImgUrl style="          max-width: 220px;
+                                                        max-height: 220px;
+                                                        border-radius: 20px;
+                                                        margin-top: 1rem;
+                                                        margin-bottom: 1rem;">
+            }
+            <h3>@Model.Description</h3>
+            <div class="row rooms-container">
+                <div class="col-md-4 detailstag">
+                    @if (Model.Kosher)
+                    {<div>Kosher</div> }
+                    else
+                    { <div>Not kosher</div>}
+                </div>
+                <div class="col-md-4 detailstag">
+                    @if (Model.Accessible)
+                    {<div>Accessible</div> }
+                    else
+                    { <div>Not accessible</div>}
+                </div>
+
+                <div class="col-md-4 detailstag">
+                    @Model.InOut
+                </div>
+            </div>
+            <div class="row rooms-container">
+                <div class="col-md-6 detailstag" style="width: 250px;">
+                    Up to @Model.MaxParticipants people
+                </div>
+
+                <div class="col-md-6 detailstag" style="width: 250px;">
+                    Age @Model.MinAge and over
+                </div>
+            </div>
+            <div class="row rooms-container">
+                <div class="col-md-6 detailstag" style="width: 250px;">
+                    Opening hour: @Model.OpeningTime.ToShortTimeString()
+                </div>
+
+                <div class="col-md-6 detailstag" style="width: 250px;">
+                    Closing hour: @Model.ClosingTime.ToShortTimeString()
+                </div>
+            </div>
+            <center>
+                <div id="myMap" style="width:400px;height:300px;" />
+            </center>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    var map;
+    var searchManager;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map("#myMap");
+        addRoomToMap('@Model.Name', '@Model.Address');
+
+    }
+
+    function addRoomToMap(name, address) {
+        findLocationByAddress(address, function (location) {
+            var barLocation = location;
+            var barPoint = new Microsoft.Maps.Pushpin(barLocation);
+            var infobox = new Microsoft.Maps.Infobox(barLocation, {
+                title: name,
+                description: address,
+                visible: false
+            });
+            infobox.setMap(map);
+            infobox.setOptions({ visible: true });
+            Microsoft.Maps.Events.addHandler(barPoint, 'click', function () {
+                infobox.setOptions({ visible: true });
+            });
+            map.entities.push(barPoint);
+            map.setView({
+                center: location,
+                zoom: 15
+            });
+
+        });
+    }
+
+    function findLocationByAddress(address, foo) {
+        // If search manager is not defined, load the search module
+        if (!searchManager) {
+            // Create an instance of the search manager and re-enter function
+            Microsoft.Maps.loadModule('Microsoft.Maps.Search', function () {
+                searchManager = new Microsoft.Maps.Search.SearchManager(map);
+                findLocationByAddress(address, foo);
+            });
+        } else {
+            var searchRequest = {
+                where: address,
+                callback: function (r) {
+                    foo(r.results[0].location);
+                },
+                errorCallback: function (e) {
+                    // If there is an error
+                    console.log("No results found for this address: " + address);
+                }
+            };
+
+            // Make the geocode request
+            searchManager.geocode(searchRequest);
+        }
+    }
+</script>
+<script type="text/javascript" src="https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AmTbZrbvXwVy0XO22GneszL2g9TZqn9gsLSs8ejbQe-EIb5_QvppPlAyyD_59HII" async defer></script>
+
+

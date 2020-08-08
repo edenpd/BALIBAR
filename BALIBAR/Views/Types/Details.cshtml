@@ -1,0 +1,62 @@
+﻿@model BALIBAR.Models.Type
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="bar-display" style="cursor: auto;">
+    <h1>@Model.Name</h1>
+    <hr />
+
+    <div class="row rooms-container">
+        <div class="col-md-12 type_detailstag">
+            <span class="glyphicon glyphicon-align-justify"></span>
+            <hr />
+            @Model.Description
+        </div>
+    </div>
+
+    <div class="row rooms-container">
+        <div class="col-md-12 type_detailstag">
+            <span class="glyphicon glyphicon-music"></span>
+            <hr />
+            @Model.MusicType
+        </div>
+    </div>
+
+    <div class="row rooms-container">
+        <div class="col-md-6 type_detailstag" style="width:185px">
+            <p>Number of<br>Bars</p>
+            <hr />
+            <p id="num_of_bars"></p>
+        </div>
+        <div class="col-md-6 type_detailstag" style="width:185px">
+            Number of reservations
+            <hr />
+            <p id="num_of_reservations"></p>
+        </div>
+    </div>
+
+    <div class="row rooms-container">
+        <div id="barsButton" class="col-md-12 bar_navtag" style="cursor: pointer;">
+            Bars list
+        </div>
+    </div>
+
+    <div style="padding-top:2rem; cursor: auto;">
+        <a asp-action="Index" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Back</a>
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            @if (User.IsInRole("Admin"))
+            {
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Delete</a>
+            }
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/Types.js"></script>
+}
