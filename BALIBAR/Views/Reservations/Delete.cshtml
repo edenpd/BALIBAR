@@ -37,30 +37,38 @@
                 Canceling a reservation is as easy as pressing the button below.
             </p>
             <div>
-                <center style="padding:1rem;">
-                    <label class="col-sm-12 col-form-label">@Html.DisplayNameFor(model => model.DateTime)</label>
-                    <div class="col-sm-12" style="margin-bottom:1rem;">
-                        <p type="text">@Html.DisplayFor(model => model.DateTime)</p>
+                <div style="margin-top: 1rem;">
+                    <div class="row">
+                        <label class="col-sm-4 col-form-label">@Html.DisplayNameFor(model => model.DateTime)</label>
+                        <div class="col-sm-8" style="margin-bottom:1rem;">
+                            <p type="text">@Html.DisplayFor(model => model.DateTime)</p>
+                        </div>
                     </div>
-                    <label class="col-sm-12 col-form-label">@Html.DisplayNameFor(model => model.AttendeesNum)</label>
-                    <div class="col-sm-12" style="margin-bottom:1rem;">
-                        <p type="text">@Html.DisplayFor(model => model.AttendeesNum)</p>
+                    <div class="row">
+                        <label class="col-sm-4 col-form-label">@Html.DisplayNameFor(model => model.AttendeesNum)</label>
+                        <div class="col-sm-8" style="margin-bottom:1rem;">
+                            <p type="text">@Html.DisplayFor(model => model.AttendeesNum)</p>
+                        </div>
                     </div>
-                    <label class="col-sm-12 col-form-label">@Html.DisplayNameFor(model => model.Bar)</label>
-                    <div class="col-sm-12" style="margin-bottom:1rem;">
-                        <p type="text">@Html.DisplayFor(model => model.Bar.Name)</p>
+                    <div class="row" style="margin-top: 1rem;">
+                        <label class="col-sm-4 col-form-label">@Html.DisplayNameFor(model => model.Bar)</label>
+                        <div class="col-sm-8" style="margin-bottom:1rem;">
+                            <p type="text">@Html.DisplayFor(model => model.Bar.Name)</p>
+                        </div>
                     </div>
                     @if (User.Identity.IsAuthenticated)
                     {
                         @if (User.IsInRole("Admin"))
                         {
-                            <label class="col-sm-12 col-form-label">@Html.DisplayNameFor(model => model.Customer)</label>
-                            <div class="col-sm-12" style="margin-bottom:1rem;">
-                                <p type="text">@Html.DisplayFor(model => model.Customer.UserName)</p>
+                            <div class="row">
+                                <label class="col-sm-4 col-form-label">@Html.DisplayNameFor(model => model.Customer)</label>
+                                <div class="col-sm-8" style="margin-bottom:1rem;">
+                                    <p type="text">@Html.DisplayFor(model => model.Customer.UserName)</p>
+                                </div>
                             </div>
                         }
                     }
-                </center>
+                </div>
 
                 <form asp-action="Delete">
                     <input type="hidden" asp-for="Id" />
