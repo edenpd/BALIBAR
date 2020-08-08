@@ -64,7 +64,7 @@
     }).done(function (data) {
         if (data.length > 0) {
             let bars = document.getElementsByClassName("room-card");
-            for (i = 1; i < bars.length; i++) {
+            for (i = 0; i < bars.length; i++) {
                 var bar_id = Number(bars[i].getAttribute("data-value"));
                 if (data.includes(bar_id)) {
                     bars[i].children[0].children[1].classList.add('recommended');

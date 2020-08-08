@@ -246,7 +246,7 @@ namespace BALIBAR.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
-                var all_bars = _context.Bar.ToList();
+                var all_bars = _context.Bar.Include(x => x.Type).ToList();
                 var all_reservations = _context.Reservation.Include(x => x.Bar.Type).ToList();
                 var user_interests = _context.Reservation.Where(r => r.Customer.Id == user.Id).Select(x => x.Bar.Type).Distinct().ToList();
                 this._rc.Train(all_reservations, user_interests);
