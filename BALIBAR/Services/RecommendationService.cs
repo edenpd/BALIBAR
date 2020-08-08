@@ -36,8 +36,12 @@ namespace BALIBAR.Services
                 {
                     MaxParticipants = curr.Bar.MaxParticipants,
                     MinAge = curr.Bar.MinAge,
+                    TypeId = (float)curr.Bar.Type.Id,
+                    Kosher = curr.Bar.Kosher ? 1 : 0,
+                    Accessible = curr.Bar.Accessible ? 1 : 0,
+                    InOut = (float)curr.Bar.InOut,
                     Recommended = recommended
-                });
+                });;
             }
             var collection = CollectionDataSource.Create(data);
 
@@ -45,7 +49,7 @@ namespace BALIBAR.Services
             var pipeline = new LearningPipeline();
             pipeline.Add(collection);
             pipeline.Add(new ColumnConcatenator("Features",
-            "MinAge", "MaxParticipants"));
+            "MinAge", "MaxParticipants", "TypeId", "Kosher", "Accessible", "InOut"));
 
             // Adds a classifier and train the model
             pipeline.Add(new LinearSvmBinaryClassifier() {
@@ -66,6 +70,10 @@ namespace BALIBAR.Services
                 {
                     MaxParticipants = bar.MaxParticipants,
                     MinAge = bar.MinAge,
+                    TypeId = (float)bar.Type.Id,
+                    Kosher = bar.Kosher ? 1 : 0,
+                    Accessible = bar.Accessible ? 1 : 0,
+                    InOut = (float)bar.InOut
                 });
 
                 bars_score.Add(new Tuple<Bar, float>(bar, prediction.PredictedRecommended));
@@ -85,6 +93,14 @@ namespace BALIBAR.Services
         public float MinAge;
         [Column("2")]
         public float MaxParticipants;
+        [Column("3")]
+        public float TypeId;
+        [Column("4")]
+        public float Kosher;
+        [Column("5")]
+        public float Accessible;
+        [Column("6")]
+        public float InOut;
     }
 
     public class BarPrediction
