@@ -80,8 +80,7 @@ namespace BALIBAR.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,Name,Address,Description,MaxParticipants,InOut,Kosher,Accessible,OpeningTime,ClosingTime,MinAge,ImgUrl,Type")] Bar bar)
         {
-            string typeName = ModelState.ToList().First(x => x.Key == "Type.Name").Value.RawValue.ToString();
-            var type = _context.Type.Where(t => t.Name == typeName);
+            var type = _context.Type.Where(t => t.Name == bar.Type.Name);
             if (type.Count() != 0)
             {
                 bar.Type = type.ToList()[0];
@@ -133,12 +132,13 @@ namespace BALIBAR.Controllers
         {
             if (id != bar.Id) return new NotFoundViewResult("NotFoundError", "Bar wasn't found");
 
+            ModelState.Remove("Type.MusicType");
+            ModelState.Remove("Type.Description");
             if (ModelState.IsValid)
             {
                 try
                 {
-                    string typeName = ModelState.ToList().First(x => x.Key == "Type.Name").Value.RawValue.ToString();
-                    var type = _context.Type.Where(t => t.Name == typeName);
+                    var type = _context.Type.Where(t => t.Name == bar.Type.Name);
                     if (type.Count() != 0)
                     {
                         var tempBar = _context.Bar.Include(b => b.Type).First(b => b.Id == bar.Id);

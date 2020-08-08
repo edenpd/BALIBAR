@@ -11,6 +11,7 @@
     <form asp-action="Edit">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="Type.Name" id="type_name"/>
 
         <div class="col-md-4">
 
@@ -106,13 +107,14 @@
             type: 'GET',
             url: url,
             contentType: 'json',
-            success: function (genres) {
+            success: function (types) {
 
-                for (var i = 0; i < genres.length; i++) {
+                for (var i = 0; i < types.length; i++) {
                     var option = document.createElement("option");
-                    option.text = genres[i].name;
+                    option.text = types[i].name;
                     select.add(option);
                 }
+                select.value = document.getElementById("type_name").value;
             }
         })
     </script>
